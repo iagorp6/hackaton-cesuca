@@ -1,4 +1,4 @@
-# Níveis de severidade para chamados da Data Cempro
+# Níveis de severidade para chamados da Vértice Sistemas
 
 **Fonte:** pesquisa do time. A ideia de "classificar por gravidade, não por ordem de chegada" é comum em protocolos de triagem (o Protocolo de Manchester foi só inspiração); as regras abaixo são **nossa proposta** para suporte de software. **Tipo:** suposição/proposta.
 **Como usar:** triagem (regras e prompt), front (cores e alertas), pitch.
@@ -65,4 +65,4 @@ Hoje a base só tem Alta/Normal/Baixa. Mapeamento: Alta ≈ 🟠, Normal ≈ �
 | **nível 1 a 5** | **não** (só 3 níveis) | substituir Alta/Normal/Baixa |
 
 ## Frase para o pitch
-"Hoje a Data Cempro atende por ordem de chegada e decide a prioridade no feeling. Com níveis de severidade por regra, o chamado que para a operação do cliente passa na frente, e quem espera demais sobe de nível automaticamente."
+"Hoje a Vértice Sistemas atende por ordem de chegada e decide a prioridade no feeling. Com níveis de severidade por regra, o chamado que para a operação do cliente passa na frente, e quem espera demais sobe de nível automaticamente."
