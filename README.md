@@ -74,6 +74,7 @@ Soma ponderada de 4 sinais, cada um normalizado de 0 a 1 e reescalado para 0 a 1
 Faixas: **Alto** >= 45, **Médio** 25 a 44, **Baixo** < 25. Com os pesos padrão: 9 Alto, 34 Médio, 57 Baixo.
 
 ## Telas
+- **Processo: antes x depois:** fluxo AS-IS x TO-BE, evidências de priorização manual sem critério e SLA invertido, horas/mês de triagem manual eliminadas (premissas ajustáveis)
 - **Triagem IA:** escolhe o cliente, escreve o chamado, recebe assunto, serviço, prioridade (ajustada pelo risco de churn), fila, tempo estimado pela mediana histórica, chamados parecidos e primeira resposta sugerida
 - **Fila repriorizada:** os 40 pendentes reordenados por prioridade + risco do cliente + dias em aberto, com a posição antes e depois
 - **Visão geral:** KPIs, distribuição de risco, risco por setor e porte
@@ -90,6 +91,7 @@ triagem.py          classificação de chamados (Claude / Ollama / regras) e fil
 data/               clientes.csv, atendimentos.csv, uso_servicos.csv (convertidos dos .xlsx fornecidos)
 Dockerfile, docker-compose.yml
 CONTEXTO_PROVA.md   resumo do regulamento e do desafio
+PITCH.md            roteiro do pitch com foco em processo
 ```
 
 ## Limitações
