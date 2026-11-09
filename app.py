@@ -3,6 +3,7 @@ import plotly.express as px
 import streamlit as st
 
 from radar import Pesos, calcular_radar, carregar_dados, mensagem_retencao, problemas_qualidade
+from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_MODEL
 
 st.set_page_config(page_title="Radar de Churn", page_icon="📡", layout="wide")
 
@@ -33,9 +34,64 @@ st.title("📡 Radar de Churn")
 st.caption("Quais clientes estão em risco de cancelar, por quê, e o que o time de CS deve fazer agora. "
            "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
 
-aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
-    ["Visão geral", "Ranking de risco", "Ficha do cliente", "Operação de suporte", "Qualidade dos dados"]
+aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
+    ["🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
+     "Operação de suporte", "Qualidade dos dados"]
 )
+
+EXEMPLOS = {
+    "(escrever o meu)": "",
+    "Sistema fora do ar": "Bom dia, o Sistema Beta parou desde cedo e nenhum usuário consegue lançar pedidos. Estamos com o faturamento parado, é urgente!",
+    "Senha bloqueada no app": "Não consigo entrar no aplicativo pelo celular, diz que a senha está bloqueada.",
+    "Portal lento": "O portal está muito lento hoje, as telas demoram mais de 1 minuto pra carregar.",
+    "Sugestão de relatório": "Seria bom se o relatório mensal pudesse ser exportado em Excel, quando puderem.",
+}
+
+# ---------------- Triagem IA ----------------
+with aba_triagem:
+    st.markdown("Chamado novo entra, a IA classifica e a **prioridade final considera o risco de churn do cliente**.")
+    motor = motor_llm()
+    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama local ({OLLAMA_MODEL})"}.get(
+        motor, "🟡 Nenhum LLM encontrado (sem ANTHROPIC_API_KEY e sem Ollama): usando classificador por palavras-chave"))
+    t1, t2 = st.columns([1, 2])
+    with t1:
+        ops_cli = radar["cliente_id"] + " · " + radar["nome_ficticio"] + " · risco " + radar["faixa"]
+        cli_sel = st.selectbox("Cliente", ops_cli, key="tri_cli")
+        exemplo = st.selectbox("Exemplo de chamado", list(EXEMPLOS), key="tri_ex")
+        usar_llm = st.toggle("Usar LLM", value=motor is not None, disabled=motor is None)
+    with t2:
+        texto = st.text_area("Texto do chamado", EXEMPLOS[exemplo], height=150, key=f"tri_txt_{exemplo}")
+    if st.button("Triar chamado", type="primary", disabled=not texto.strip()):
+        crow = radar[radar["cliente_id"] == cli_sel.split(" · ")[0]].iloc[0]
+        with st.spinner("Classificando..."):
+            res = triar(texto, crow, atend, uso, usar_llm=usar_llm)
+        if res.aviso:
+            st.warning(res.aviso)
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Assunto", res.assunto)
+        m2.metric("Serviço", res.servico)
+        mudou = res.prioridade_final != res.prioridade_informada
+        m3.metric("Prioridade final", res.prioridade_final,
+                  f"era {res.prioridade_informada}" if mudou else "sem ajuste", delta_color="inverse" if mudou else "off")
+        m4.metric("Fila", res.fila, f"~{res.tempo_estimado_min} min (mediana histórica)" if res.tempo_estimado_min else None,
+                  delta_color="off")
+        st.markdown(f"**Por quê:** {res.justificativa}  \n**Ajuste por risco:** {res.motivo_ajuste}  \n"
+                    f"<small>Motor: {res.motor}</small>", unsafe_allow_html=True)
+        st.text_area("✉️ Primeira resposta sugerida ao cliente", res.resposta_sugerida, height=140)
+        st.markdown("**Chamados parecidos** (do próprio cliente primeiro, depois mesmo assunto e serviço)")
+        st.dataframe(res.similares, hide_index=True, use_container_width=True)
+
+# ---------------- Fila repriorizada ----------------
+with aba_fila:
+    fila = fila_repriorizada(atend, radar)
+    st.markdown("Os **40 chamados pendentes** reordenados por: prioridade informada + risco de churn do cliente + dias em aberto. "
+                "`mudanca` positiva = subiu na fila.")
+    f1, f2, f3 = st.columns(3)
+    f1.metric("Pendentes", len(fila))
+    f2.metric("Pendentes de clientes em risco Alto/Médio", int(fila["faixa"].isin(["Alto", "Médio"]).sum()))
+    f3.metric("Chamados que subiram 5+ posições", int((fila["mudanca"] >= 5).sum()))
+    st.dataframe(fila, hide_index=True, use_container_width=True,
+                 column_config={"indice_urgencia": st.column_config.ProgressColumn("indice_urgencia", min_value=0, max_value=110, format="%.0f")})
 
 # ---------------- Visão geral ----------------
 with aba_geral:
