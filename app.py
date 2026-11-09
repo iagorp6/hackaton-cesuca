@@ -1,0 +1,221 @@
+import pandas as pd
+import plotly.express as px
+import streamlit as st
+
+from radar import Pesos, calcular_radar, carregar_dados, mensagem_retencao, problemas_qualidade
+from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_MODEL
+
+st.set_page_config(page_title="Radar de Churn", page_icon="📡", layout="wide")
+
+
+@st.cache_data
+def dados():
+    return carregar_dados()
+
+
+clientes, atend, uso = dados()
+
+# ---------------- Sidebar: pesos ajustáveis ----------------
+st.sidebar.header("⚙️ Pesos do score")
+st.sidebar.caption("Ajuste a importância de cada sinal. O score é reescalado para 0 a 100.")
+pesos = Pesos(
+    queda_uso=st.sidebar.slider("Queda de uso", 0, 50, 35),
+    pendentes=st.sidebar.slider("Chamados pendentes", 0, 50, 25),
+    satisfacao=st.sidebar.slider("Satisfação baixa", 0, 50, 25),
+    tempo=st.sidebar.slider("Tempo de resolução alto", 0, 50, 15),
+)
+if pesos.total() == 0:
+    st.sidebar.error("Defina ao menos um peso maior que zero.")
+    st.stop()
+
+radar = calcular_radar(clientes, atend, uso, pesos)
+
+st.title("📡 Radar de Churn")
+st.caption("Quais clientes estão em risco de cancelar, por quê, e o que o time de CS deve fazer agora. "
+           "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
+
+aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
+    ["🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
+     "Operação de suporte", "Qualidade dos dados"]
+)
+
+EXEMPLOS = {
+    "(escrever o meu)": "",
+    "Sistema fora do ar": "Bom dia, o Sistema Beta parou desde cedo e nenhum usuário consegue lançar pedidos. Estamos com o faturamento parado, é urgente!",
+    "Senha bloqueada no app": "Não consigo entrar no aplicativo pelo celular, diz que a senha está bloqueada.",
+    "Portal lento": "O portal está muito lento hoje, as telas demoram mais de 1 minuto pra carregar.",
+    "Sugestão de relatório": "Seria bom se o relatório mensal pudesse ser exportado em Excel, quando puderem.",
+}
+
+# ---------------- Triagem IA ----------------
+with aba_triagem:
+    st.markdown("Chamado novo entra, a IA classifica e a **prioridade final considera o risco de churn do cliente**.")
+    motor = motor_llm()
+    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama local ({OLLAMA_MODEL})"}.get(
+        motor, "🟡 Nenhum LLM encontrado (sem ANTHROPIC_API_KEY e sem Ollama): usando classificador por palavras-chave"))
+    t1, t2 = st.columns([1, 2])
+    with t1:
+        ops_cli = radar["cliente_id"] + " · " + radar["nome_ficticio"] + " · risco " + radar["faixa"]
+        cli_sel = st.selectbox("Cliente", ops_cli, key="tri_cli")
+        exemplo = st.selectbox("Exemplo de chamado", list(EXEMPLOS), key="tri_ex")
+        usar_llm = st.toggle("Usar LLM", value=motor is not None, disabled=motor is None)
+    with t2:
+        texto = st.text_area("Texto do chamado", EXEMPLOS[exemplo], height=150, key=f"tri_txt_{exemplo}")
+    if st.button("Triar chamado", type="primary", disabled=not texto.strip()):
+        crow = radar[radar["cliente_id"] == cli_sel.split(" · ")[0]].iloc[0]
+        with st.spinner("Classificando..."):
+            res = triar(texto, crow, atend, uso, usar_llm=usar_llm)
+        if res.aviso:
+            st.warning(res.aviso)
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Assunto", res.assunto)
+        m2.metric("Serviço", res.servico)
+        mudou = res.prioridade_final != res.prioridade_informada
+        m3.metric("Prioridade final", res.prioridade_final,
+                  f"era {res.prioridade_informada}" if mudou else "sem ajuste", delta_color="inverse" if mudou else "off")
+        m4.metric("Fila", res.fila, f"~{res.tempo_estimado_min} min (mediana histórica)" if res.tempo_estimado_min else None,
+                  delta_color="off")
+        st.markdown(f"**Por quê:** {res.justificativa}  \n**Ajuste por risco:** {res.motivo_ajuste}  \n"
+                    f"<small>Motor: {res.motor}</small>", unsafe_allow_html=True)
+        st.text_area("✉️ Primeira resposta sugerida ao cliente", res.resposta_sugerida, height=140)
+        st.markdown("**Chamados parecidos** (do próprio cliente primeiro, depois mesmo assunto e serviço)")
+        st.dataframe(res.similares, hide_index=True, use_container_width=True)
+
+# ---------------- Fila repriorizada ----------------
+with aba_fila:
+    fila = fila_repriorizada(atend, radar)
+    st.markdown("Os **40 chamados pendentes** reordenados por: prioridade informada + risco de churn do cliente + dias em aberto. "
+                "`mudanca` positiva = subiu na fila.")
+    f1, f2, f3 = st.columns(3)
+    f1.metric("Pendentes", len(fila))
+    f2.metric("Pendentes de clientes em risco Alto/Médio", int(fila["faixa"].isin(["Alto", "Médio"]).sum()))
+    f3.metric("Chamados que subiram 5+ posições", int((fila["mudanca"] >= 5).sum()))
+    st.dataframe(fila, hide_index=True, use_container_width=True,
+                 column_config={"indice_urgencia": st.column_config.ProgressColumn("indice_urgencia", min_value=0, max_value=110, format="%.0f")})
+
+# ---------------- Visão geral ----------------
+with aba_geral:
+    alto = radar[radar["faixa"] == "Alto"]
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Clientes em risco alto", len(alto), f"{len(alto) / len(radar) * 100:.0f}% da base", delta_color="inverse")
+    k2.metric("Chamados pendentes", int((atend["status"] == "Pendente").sum()))
+    k3.metric("Satisfação média", f"{atend['satisfacao_1_a_5'].mean():.2f} / 5")
+    tot = uso.groupby("mes")["acessos"].sum()
+    k4.metric("Acessos em set", int(tot.get("2026-09", 0)),
+              f"{(tot.get('2026-09', 0) / tot.get('2026-08', 1) - 1) * 100:.1f}% vs ago")
+
+    c1, c2 = st.columns(2)
+    ordem = ["Alto", "Médio", "Baixo"]
+    cores = {"Alto": "#d62728", "Médio": "#ff7f0e", "Baixo": "#2ca02c"}
+    with c1:
+        dist = radar["faixa"].value_counts().reindex(ordem).fillna(0).reset_index()
+        dist.columns = ["faixa", "clientes"]
+        st.plotly_chart(px.bar(dist, x="faixa", y="clientes", color="faixa", color_discrete_map=cores,
+                               title="Clientes por faixa de risco"), use_container_width=True)
+    with c2:
+        st.plotly_chart(px.histogram(radar, x="score", nbins=20, title="Distribuição do score"),
+                        use_container_width=True)
+
+    c3, c4 = st.columns(2)
+    with c3:
+        seg = radar.groupby(["setor", "faixa"]).size().reset_index(name="clientes")
+        st.plotly_chart(px.bar(seg, x="setor", y="clientes", color="faixa", color_discrete_map=cores,
+                               category_orders={"faixa": ordem}, title="Risco por setor"),
+                        use_container_width=True)
+    with c4:
+        seg = radar.groupby(["porte", "faixa"]).size().reset_index(name="clientes")
+        st.plotly_chart(px.bar(seg, x="porte", y="clientes", color="faixa", color_discrete_map=cores,
+                               category_orders={"faixa": ordem, "porte": ["Micro", "Pequena", "Média"]},
+                               title="Risco por porte"), use_container_width=True)
+
+# ---------------- Ranking ----------------
+with aba_rank:
+    f1, f2, f3, f4 = st.columns(4)
+    faixas = f1.multiselect("Faixa", ordem, default=["Alto", "Médio"])
+    setores = f2.multiselect("Setor", sorted(radar["setor"].unique()))
+    portes = f3.multiselect("Porte", ["Micro", "Pequena", "Média"])
+    cidades = f4.multiselect("Cidade", sorted(radar["cidade"].unique()))
+
+    r = radar.copy()
+    if faixas:
+        r = r[r["faixa"].isin(faixas)]
+    if setores:
+        r = r[r["setor"].isin(setores)]
+    if portes:
+        r = r[r["porte"].isin(portes)]
+    if cidades:
+        r = r[r["cidade"].isin(cidades)]
+
+    cols = ["cliente_id", "nome_ficticio", "score", "faixa", "motivos", "acao_sugerida", "setor", "porte",
+            "cidade", "acessos_jul", "acessos_ago", "acessos_set", "pendentes", "satisfacao_media"]
+    st.dataframe(
+        r[cols], hide_index=True, use_container_width=True,
+        column_config={"score": st.column_config.ProgressColumn("score", min_value=0, max_value=100, format="%d")},
+    )
+    st.download_button("⬇️ Exportar lista para o CS (CSV)", r[cols].to_csv(index=False).encode("utf-8"),
+                       "radar_churn.csv", "text/csv")
+
+# ---------------- Ficha do cliente ----------------
+with aba_cliente:
+    opcoes = radar["cliente_id"] + " · " + radar["nome_ficticio"] + " · score " + radar["score"].astype(str)
+    escolha = st.selectbox("Cliente (ordenado por risco)", opcoes)
+    cid = escolha.split(" · ")[0]
+    row = radar[radar["cliente_id"] == cid].iloc[0]
+
+    a, b, c = st.columns([1, 1, 2])
+    a.metric("Score", int(row["score"]), row["faixa"], delta_color="off")
+    b.metric("Chamados", int(row["chamados"]), f"{int(row['pendentes'])} pendente(s)", delta_color="off")
+    c.markdown(f"**{row['nome_ficticio']}** · {row['porte']} · {row['setor']} · {row['cidade']}  \n"
+               f"**Motivos:** {row['motivos']}  \n**Ação sugerida:** {row['acao_sugerida']}")
+
+    comp = pd.DataFrame({
+        "sinal": ["Queda de uso", "Pendentes", "Satisfação", "Tempo de resolução"],
+        "pontos": [row["pts_queda_uso"], row["pts_pendentes"], row["pts_satisfacao"], row["pts_tempo"]],
+    })
+    g1, g2 = st.columns(2)
+    g1.plotly_chart(px.bar(comp, x="pontos", y="sinal", orientation="h", title="De onde vem o score"),
+                    use_container_width=True)
+    hist = uso[uso["cliente_id"] == cid]
+    g2.plotly_chart(px.line(hist, x="mes", y=["acessos", "operacoes_realizadas"], markers=True,
+                            hover_data=["servico"], title="Uso mensal").update_xaxes(type="category"),
+                    use_container_width=True)
+
+    st.subheader("Chamados")
+    st.dataframe(atend[atend["cliente_id"] == cid].sort_values("data_abertura", ascending=False),
+                 hide_index=True, use_container_width=True)
+
+    st.subheader("✉️ Rascunho de mensagem de retenção")
+    st.text_area("Copie e envie pelo canal do cliente", mensagem_retencao(row), height=260)
+
+# ---------------- Operação ----------------
+with aba_ops:
+    res = atend[atend["status"] == "Resolvido"]
+    st.markdown("Insights para o time de suporte, que alimentam os sinais do radar.")
+    o1, o2 = st.columns(2)
+    t_prio = res.groupby("prioridade")["tempo_resolucao_min"].mean().reindex(["Alta", "Normal", "Baixa"]).reset_index()
+    o1.plotly_chart(px.bar(t_prio, x="prioridade", y="tempo_resolucao_min",
+                           title="Tempo médio de resolução por prioridade (min)"), use_container_width=True)
+    o1.warning("Chamados de prioridade **Alta** demoram mais que os de **Baixa**: a fila não respeita a prioridade.")
+    t_ass = res.groupby("assunto").agg(tempo=("tempo_resolucao_min", "mean"),
+                                       satisfacao=("satisfacao_1_a_5", "mean"),
+                                       chamados=("atendimento_id", "count")).reset_index()
+    o2.plotly_chart(px.scatter(t_ass, x="tempo", y="satisfacao", size="chamados", text="assunto",
+                               title="Assunto: tempo x satisfação"), use_container_width=True)
+    o3, o4 = st.columns(2)
+    sat_serv = res.groupby("servico")["satisfacao_1_a_5"].mean().sort_values().reset_index()
+    o3.plotly_chart(px.bar(sat_serv, x="satisfacao_1_a_5", y="servico", orientation="h",
+                           title="Satisfação média por serviço"), use_container_width=True)
+    pend = atend[atend["status"] == "Pendente"].groupby(["prioridade", "assunto"]).size().reset_index(name="pendentes")
+    o4.plotly_chart(px.bar(pend, x="assunto", y="pendentes", color="prioridade",
+                           title="Pendências por assunto e prioridade"), use_container_width=True)
+
+# ---------------- Qualidade ----------------
+with aba_dados:
+    st.markdown("Problemas encontrados nos arquivos fornecidos e como o radar lida com eles.")
+    st.dataframe(problemas_qualidade(clientes, atend, uso), hide_index=True, use_container_width=True)
+    st.info(
+        "• Queda de uso compara set com a média de jul e ago, somando todos os serviços do cliente.  \n"
+        "• Pendentes não têm nota nem tempo, então entram só no sinal de pendências.  \n"
+        "• Clientes sem chamado recebem 0 nos sinais de atendimento.  \n"
+        "• Correlação não implica causalidade: o score prioriza contatos, não prova que o cliente vai sair."
+    )

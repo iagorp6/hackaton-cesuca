@@ -1,0 +1,14 @@
+services:
+  radar:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      # Ollama rodando no PC (fora do container). Se não estiver rodando, a triagem usa regras.
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:3b}
+      # Opcional: chave da API Anthropic (console.anthropic.com). Nunca commitar.
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
