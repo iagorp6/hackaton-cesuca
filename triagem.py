@@ -1,6 +1,6 @@
 """Triagem inteligente de chamados.
 
-Motores, nesta ordem: Claude (ANTHROPIC_API_KEY), Ollama local (OLLAMA_HOST/OLLAMA_MODEL), regras.
+Motores, nesta ordem: Claude (ANTHROPIC_API_KEY), Ollama Cloud (OLLAMA_API_KEY) ou local (OLLAMA_HOST), regras.
 
 Classifica um chamado novo (texto livre) em serviço, assunto e prioridade, e
 ajusta a prioridade pelo risco de churn do cliente calculado em radar.py.
@@ -18,6 +18,23 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 import pandas as pd
+
+
+def _carregar_env(caminho: str = ".env") -> None:
+    """Lê .env simples (CHAVE=valor) sem sobrescrever variáveis já definidas no ambiente."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), caminho)
+    if not os.path.exists(p):
+        return
+    for linha in open(p, encoding="utf-8"):
+        linha = linha.strip()
+        if linha and not linha.startswith("#") and "=" in linha:
+            k, v = linha.split("=", 1)
+            v = v.strip().strip('"').strip("'")
+            if v:
+                os.environ.setdefault(k.strip(), v)
+
+
+_carregar_env()
 
 SERVICOS = ["Portal Web", "Aplicativo Mobile", "Sistema Alfa", "Sistema Beta"]
 ASSUNTOS = ["Erro no sistema", "Lentidão", "Acesso e senha", "Dúvida de utilização",
@@ -98,7 +115,18 @@ def classificar_regras(texto: str, servico_cliente: str | None = None) -> dict:
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
 if not OLLAMA_HOST.startswith("http"):
     OLLAMA_HOST = "http://" + OLLAMA_HOST
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:3b")
+OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "")
+_HOSTS_LOCAIS_PADRAO = ("http://localhost:11434", "http://host.docker.internal:11434")
+if OLLAMA_API_KEY and OLLAMA_HOST in _HOSTS_LOCAIS_PADRAO:
+    OLLAMA_HOST = "https://ollama.com"  # chave presente: usa Ollama Cloud
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gpt-oss:20b" if OLLAMA_API_KEY else "qwen2.5:3b")
+
+
+def _ollama_headers() -> dict:
+    h = {"Content-Type": "application/json"}
+    if OLLAMA_API_KEY:
+        h["Authorization"] = f"Bearer {OLLAMA_API_KEY}"
+    return h
 
 SYSTEM_PROMPT = (
     "Você faz a triagem de chamados de suporte de uma empresa de software. "
@@ -130,7 +158,8 @@ def ollama_disponivel() -> bool:
     if _ollama_ok is None:
         import urllib.request
         try:
-            with urllib.request.urlopen(f"{OLLAMA_HOST}/api/tags", timeout=1.5) as r:
+            req = urllib.request.Request(f"{OLLAMA_HOST}/api/tags", headers=_ollama_headers())
+            with urllib.request.urlopen(req, timeout=3 if OLLAMA_API_KEY else 1.5) as r:
                 _ollama_ok = r.status == 200
         except Exception:
             _ollama_ok = False
@@ -165,13 +194,13 @@ def classificar_ollama(texto: str, contexto_cliente: str) -> dict:
         ],
     }
     req = urllib.request.Request(f"{OLLAMA_HOST}/api/chat", data=json.dumps(body).encode(),
-                                 headers={"Content-Type": "application/json"})
+                                 headers=_ollama_headers())
     with urllib.request.urlopen(req, timeout=90) as r:
         out = json.loads(json.loads(r.read())["message"]["content"])
     for k, opts in (("servico", SERVICOS), ("assunto", ASSUNTOS), ("prioridade", PRIORIDADES)):
         if out.get(k) not in opts:
             raise ValueError(f"valor inválido para {k}: {out.get(k)!r}")
-    out["motor"] = f"LLM local (Ollama {OLLAMA_MODEL})"
+    out["motor"] = f"LLM {'Ollama Cloud' if OLLAMA_API_KEY else 'local (Ollama)'} {OLLAMA_MODEL}"
     return out
 
 
