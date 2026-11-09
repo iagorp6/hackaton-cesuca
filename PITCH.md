@@ -1,7 +1,7 @@
-# Roteiro do pitch (5 min) · Data Cempro
+# Roteiro do pitch (5 min) · Vértice Sistemas
 
-**Empresa do caso:** a própria **Data Cempro**. Os dados do desafio representam a operação de suporte dela: 100 clientes empresariais (Serviços, Indústria, Tecnologia, Comércio) usando 4 produtos (Sistema Alfa, Sistema Beta, Portal Web, Aplicativo Mobile).
-Gancho: **"para o cliente da Data Cempro, sistema parado é operação parada. E para a Data Cempro, cliente mal atendido é contrato cancelado."**
+**Empresa do caso (fictícia):** **Vértice Sistemas**, software house B2B parecida com a Vértice: vende ERP e soluções para 100 empresas clientes (Serviços, Indústria, Tecnologia, Comércio) com 4 produtos (Sistema Alfa = ERP, Sistema Beta = financeiro/faturamento, Portal Web, Aplicativo Mobile). A solução é a **Central de Atendimento** dela, no estilo help desk (Zendesk/GLPI), com triagem por IA embutida.
+Gancho: **"para o cliente da Vértice, sistema parado é operação parada. E para a Vértice, cliente mal atendido é contrato cancelado."**
 
 Dica do reitor: a banca valoriza processo, simplificação e automação, não o código. Cada frase responde: *que etapa do processo isso elimina ou padroniza?*
 
@@ -29,7 +29,7 @@ Dica: no fechamento, ler os 6 verbos em sequência apontando para a tela.
 
 ## 0:00 a 1:00 · Problema (quem fala: pessoa mais segura na oratória)
 Tela: aba **🔄 Processo: antes x depois**
-- "A Data Cempro atende 100 empresas. Quando o sistema delas para, a operação delas para."
+- "A Vértice atende 100 empresas. Quando o sistema delas para, a operação delas para."
 - "Hoje o chamado chega por 4 canais, alguém lê, classifica e decide a prioridade no feeling."
 - "Prova: Relatório é marcado como urgente em 46% das vezes, erro de sistema só em 38%. Não existe critério."
 - "Resultado: o chamado urgente espera mais que o não urgente, 126 contra 100 minutos. São 57 horas de espera extra só nos urgentes."
@@ -58,7 +58,7 @@ Tela: aba **🔄 Processo: antes x depois**
 **Dev front-end**
 - *Por que Streamlit?* Para validar o processo em 2 horas. A lógica fica separada da tela (`radar.py`, `triagem.py`), então dá para trocar o front por React sem reescrever a regra.
 - *E se a IA demorar ou falhar?* Tem fallback automático por regras e a tela avisa qual motor está ativo.
-- *Funciona no celular?* Layout responsivo do Streamlit; versão final seria integrada ao Portal/App da Data Cempro.
+- *Funciona no celular?* Layout responsivo do Streamlit; versão final seria integrada ao Portal/App da Vértice.
 
 **Professor**
 - *Isso é machine learning?* O score de churn não é: é uma regra ponderada e explicável, porque os dados não têm rótulo de cancelamento. A IA entra só na classificação do texto do chamado.

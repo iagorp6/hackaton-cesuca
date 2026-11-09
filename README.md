@@ -1,6 +1,6 @@
-# 📡 Radar de Churn + Triagem IA
+# 🎫 Vértice Desk: help desk com triagem IA + Radar de Churn
 
-Hackathon Data Cempro + Cesuca 2026.
+Hackathon Data Cempro + Cesuca 2026. Case fictício: **Vértice Sistemas**, software house B2B (ERP e soluções) parecida com a Data Cempro. A interface é um help desk estilo Zendesk/GLPI para atender os clientes B2B, com triagem por IA e risco de churn em cada ticket.
 
 ## Descrição (5 frases)
 1. **Problema:** a empresa tem dados de uso e de suporte de 100 clientes, mas não sabe quais estão perto de cancelar até ser tarde.
