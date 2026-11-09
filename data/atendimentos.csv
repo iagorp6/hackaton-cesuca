@@ -1,0 +1,301 @@
+atendimento_id,cliente_id,data_abertura,servico,assunto,canal,prioridade,status,tempo_resolucao_min,satisfacao_1_a_5
+A0001,C099,2026-08-04T12:36,Portal Web,Dúvida de utilização,Portal,Alta,Resolvido,125,4
+A0002,C044,2026-09-25T15:58,Sistema Beta,Dúvida de utilização,Portal,Alta,Resolvido,181,5
+A0003,C046,2026-07-08T14:46,Sistema Beta,Atualização,E-mail,Normal,Resolvido,52,4
+A0004,C075,2026-08-30T15:21,Portal Web,Solicitação de melhoria,E-mail,Baixa,Resolvido,11,3
+A0005,C003,2026-08-28T16:17,Sistema Alfa,Erro no sistema,WhatsApp,Alta,Resolvido,167,5
+A0006,C020,2026-07-29T15:13,Aplicativo Mobile,Atualização,Telefone,Baixa,Resolvido,163,5
+A0007,C014,2026-08-04T14:02,Aplicativo Mobile,Acesso e senha,E-mail,Baixa,Resolvido,55,4
+A0008,C044,2026-08-10T17:30,Sistema Alfa,Atualização,Portal,Normal,Resolvido,73,3
+A0009,C018,2026-08-31T13:16,Aplicativo Mobile,Acesso e senha,E-mail,Alta,Resolvido,201,4
+A0010,C028,2026-08-22T09:46,Portal Web,Acesso e senha,Portal,Alta,Resolvido,192,4
+A0011,C079,2026-09-04T16:38,Sistema Beta,Dúvida de utilização,WhatsApp,Normal,Resolvido,91,5
+A0012,C072,2026-08-02T16:33,Sistema Alfa,Lentidão,Portal,Baixa,Resolvido,106,5
+A0013,C031,2026-08-24T16:54,Aplicativo Mobile,Erro no sistema,Telefone,Alta,Resolvido,262,5
+A0014,C072,2026-08-16T14:34,Sistema Beta,Atualização,Telefone,Alta,Resolvido,165,3
+A0015,C017,2026-09-24T08:17,Portal Web,Acesso e senha,E-mail,Baixa,Resolvido,210,5
+A0016,C017,2026-07-22T10:44,Aplicativo Mobile,Relatório,WhatsApp,Normal,Resolvido,21,5
+A0017,C039,2026-09-04T13:56,Sistema Beta,Erro no sistema,WhatsApp,Normal,Resolvido,266,4
+A0018,C061,2026-07-08T09:22,Portal Web,Acesso e senha,WhatsApp,Normal,Resolvido,158,5
+A0019,C021,2026-07-12T14:42,Aplicativo Mobile,Erro no sistema,Telefone,Alta,Resolvido,238,3
+A0020,C048,2026-09-07T14:46,Portal Web,Lentidão,Portal,Baixa,Resolvido,116,4
+A0021,C072,2026-07-12T11:47,Sistema Beta,Relatório,WhatsApp,Alta,Resolvido,58,2
+A0022,C023,2026-09-21T14:12,Portal Web,Erro no sistema,E-mail,Alta,Pendente,,
+A0023,C095,2026-08-20T08:30,Aplicativo Mobile,Atualização,Telefone,Normal,Resolvido,141,3
+A0024,C014,2026-09-10T11:22,Portal Web,Lentidão,E-mail,Baixa,Resolvido,124,4
+A0025,C088,2026-08-29T15:22,Sistema Alfa,Dúvida de utilização,E-mail,Alta,Resolvido,147,4
+A0026,C038,2026-07-11T17:02,Aplicativo Mobile,Acesso e senha,Portal,Baixa,Resolvido,25,4
+A0027,C079,2026-09-08T08:09,Sistema Beta,Relatório,E-mail,Baixa,Resolvido,89,2
+A0028,C003,2026-07-10T17:33,Sistema Beta,Acesso e senha,E-mail,Normal,Resolvido,38,5
+A0029,C061,2026-08-11T15:44,Sistema Alfa,Erro no sistema,Portal,Normal,Resolvido,70,5
+A0030,C032,2026-08-26T11:49,Sistema Alfa,Lentidão,Portal,Normal,Resolvido,37,4
+A0031,C028,2026-07-05T16:29,Portal Web,Solicitação de melhoria,E-mail,Alta,Resolvido,208,3
+A0032,C099,2026-09-13T08:22,Sistema Alfa,Solicitação de melhoria,E-mail,Alta,Resolvido,162,3
+A0033,C028,2026-09-09T10:29,Aplicativo Mobile,Dúvida de utilização,WhatsApp,Normal,Resolvido,111,5
+A0034,C032,2026-07-07T12:48,Portal Web,Erro no sistema,Telefone,Baixa,Pendente,,
+A0035,C005,2026-09-29T16:07,Aplicativo Mobile,Erro no sistema,WhatsApp,Alta,Resolvido,122,5
+A0036,C025,2026-07-07T12:05,Portal Web,Relatório,WhatsApp,Baixa,Resolvido,51,3
+A0037,C061,2026-07-10T16:10,Aplicativo Mobile,Instalação,WhatsApp,Baixa,Resolvido,148,4
+A0038,C070,2026-07-30T16:25,Aplicativo Mobile,Atualização,WhatsApp,Normal,Resolvido,126,1
+A0039,C057,2026-07-22T11:10,Portal Web,Lentidão,Telefone,Normal,Resolvido,151,5
+A0040,C060,2026-07-03T13:04,Sistema Beta,Dúvida de utilização,Portal,Alta,Resolvido,199,5
+A0041,C089,2026-09-26T13:11,Sistema Alfa,Lentidão,Portal,Normal,Resolvido,134,2
+A0042,C081,2026-09-24T17:21,Sistema Alfa,Solicitação de melhoria,E-mail,Baixa,Pendente,,
+A0043,C031,2026-08-18T11:19,Sistema Beta,Dúvida de utilização,E-mail,Alta,Resolvido,160,5
+A0044,C096,2026-07-04T13:58,Sistema Beta,Acesso e senha,Portal,Baixa,Resolvido,196,4
+A0045,C097,2026-09-16T16:59,Portal Web,Lentidão,Telefone,Baixa,Resolvido,177,1
+A0046,C053,2026-07-03T15:38,Sistema Alfa,Instalação,Portal,Normal,Pendente,,
+A0047,C076,2026-07-13T11:53,Portal Web,Dúvida de utilização,Portal,Normal,Resolvido,91,1
+A0048,C099,2026-08-08T12:28,Sistema Beta,Relatório,WhatsApp,Normal,Resolvido,197,4
+A0049,C079,2026-07-27T11:44,Sistema Beta,Acesso e senha,E-mail,Normal,Resolvido,83,5
+A0050,C022,2026-07-30T14:08,Portal Web,Dúvida de utilização,Portal,Baixa,Resolvido,161,4
+A0051,C089,2026-08-14T15:15,Sistema Beta,Instalação,E-mail,Alta,Resolvido,52,1
+A0052,C022,2026-09-24T17:08,Aplicativo Mobile,Solicitação de melhoria,WhatsApp,Alta,Pendente,,
+A0053,C079,2026-07-05T17:32,Portal Web,Instalação,E-mail,Baixa,Resolvido,94,5
+A0054,C045,2026-09-06T11:00,Sistema Beta,Solicitação de melhoria,Portal,Normal,Resolvido,115,4
+A0055,C046,2026-07-14T11:13,Aplicativo Mobile,Acesso e senha,Telefone,Baixa,Resolvido,52,4
+A0056,C048,2026-09-08T09:06,Portal Web,Acesso e senha,WhatsApp,Alta,Resolvido,37,2
+A0057,C054,2026-08-11T12:57,Aplicativo Mobile,Erro no sistema,Portal,Baixa,Resolvido,128,4
+A0058,C013,2026-07-25T16:55,Portal Web,Dúvida de utilização,Telefone,Baixa,Resolvido,132,3
+A0059,C020,2026-08-29T09:58,Sistema Alfa,Relatório,WhatsApp,Baixa,Resolvido,148,4
+A0060,C088,2026-08-24T09:28,Sistema Alfa,Relatório,WhatsApp,Alta,Resolvido,135,4
+A0061,C053,2026-08-24T09:16,Portal Web,Lentidão,Telefone,Baixa,Resolvido,190,3
+A0062,C002,2026-09-16T17:50,Sistema Beta,Lentidão,E-mail,Baixa,Resolvido,86,5
+A0063,C097,2026-08-22T09:36,Portal Web,Dúvida de utilização,Telefone,Alta,Resolvido,204,3
+A0064,C095,2026-09-06T14:16,Portal Web,Lentidão,Portal,Normal,Resolvido,16,3
+A0065,C095,2026-07-27T17:28,Portal Web,Instalação,WhatsApp,Normal,Resolvido,49,4
+A0066,C078,2026-07-01T11:38,Sistema Alfa,Erro no sistema,E-mail,Alta,Resolvido,280,5
+A0067,C052,2026-09-17T15:38,Aplicativo Mobile,Solicitação de melhoria,E-mail,Normal,Resolvido,104,5
+A0068,C073,2026-08-15T08:48,Aplicativo Mobile,Solicitação de melhoria,WhatsApp,Normal,Resolvido,99,4
+A0069,C047,2026-08-29T08:38,Sistema Alfa,Solicitação de melhoria,WhatsApp,Alta,Resolvido,13,3
+A0070,C099,2026-08-25T12:24,Portal Web,Atualização,WhatsApp,Alta,Pendente,,
+A0071,C027,2026-07-08T09:14,Aplicativo Mobile,Erro no sistema,WhatsApp,Alta,Resolvido,173,5
+A0072,C087,2026-08-07T10:06,Sistema Alfa,Acesso e senha,WhatsApp,Baixa,Resolvido,115,5
+A0073,C076,2026-07-05T10:28,Aplicativo Mobile,Solicitação de melhoria,E-mail,Normal,Resolvido,151,5
+A0074,C072,2026-07-25T08:26,Sistema Beta,Relatório,Portal,Alta,Resolvido,87,4
+A0075,C092,2026-07-09T15:36,Sistema Beta,Acesso e senha,WhatsApp,Alta,Resolvido,113,4
+A0076,C037,2026-07-17T14:12,Sistema Beta,Dúvida de utilização,Telefone,Normal,Pendente,,
+A0077,C042,2026-09-27T12:01,Aplicativo Mobile,Lentidão,WhatsApp,Normal,Resolvido,34,4
+A0078,C002,2026-09-12T09:17,Portal Web,Atualização,WhatsApp,Baixa,Resolvido,149,4
+A0079,C070,2026-09-27T11:29,Sistema Beta,Dúvida de utilização,Telefone,Baixa,Resolvido,150,5
+A0080,C025,2026-09-26T09:24,Sistema Beta,Instalação,Telefone,Baixa,Resolvido,72,4
+A0081,C047,2026-07-09T17:08,Sistema Alfa,Relatório,E-mail,Alta,Pendente,,
+A0082,C029,2026-08-30T08:58,Sistema Alfa,Instalação,Telefone,Alta,Resolvido,86,4
+A0083,C040,2026-08-03T14:04,Sistema Alfa,Dúvida de utilização,WhatsApp,Alta,Resolvido,130,3
+A0084,C038,2026-07-12T11:41,Sistema Alfa,Solicitação de melhoria,E-mail,Baixa,Pendente,,
+A0085,C026,2026-09-19T13:06,Portal Web,Acesso e senha,Telefone,Normal,Resolvido,72,4
+A0086,C006,2026-09-25T17:45,Aplicativo Mobile,Atualização,WhatsApp,Normal,Pendente,,
+A0087,C081,2026-08-16T11:34,Sistema Alfa,Atualização,WhatsApp,Normal,Resolvido,73,4
+A0088,C056,2026-09-26T08:41,Aplicativo Mobile,Relatório,Portal,Alta,Resolvido,161,2
+A0089,C016,2026-07-16T12:07,Sistema Beta,Atualização,Portal,Normal,Resolvido,70,4
+A0090,C088,2026-07-16T08:47,Sistema Beta,Acesso e senha,Telefone,Alta,Resolvido,143,3
+A0091,C090,2026-07-23T12:48,Aplicativo Mobile,Instalação,Telefone,Alta,Resolvido,118,5
+A0092,C012,2026-08-18T13:55,Aplicativo Mobile,Solicitação de melhoria,E-mail,Alta,Resolvido,63,5
+A0093,C099,2026-07-31T13:35,Sistema Alfa,Atualização,Portal,Baixa,Resolvido,30,5
+A0094,C023,2026-07-29T12:39,Portal Web,Erro no sistema,WhatsApp,Alta,Resolvido,112,5
+A0095,C081,2026-08-05T15:21,Aplicativo Mobile,Acesso e senha,E-mail,Alta,Resolvido,186,5
+A0096,C054,2026-07-16T12:07,Portal Web,Dúvida de utilização,E-mail,Baixa,Resolvido,188,5
+A0097,C029,2026-09-17T12:00,Aplicativo Mobile,Instalação,E-mail,Normal,Resolvido,181,3
+A0098,C059,2026-09-09T10:17,Portal Web,Dúvida de utilização,Portal,Baixa,Resolvido,76,3
+A0099,C097,2026-09-10T08:04,Sistema Alfa,Acesso e senha,E-mail,Alta,Pendente,,
+A0100,C082,2026-07-03T08:31,Aplicativo Mobile,Lentidão,WhatsApp,Baixa,Resolvido,21,4
+A0101,C026,2026-09-02T11:14,Portal Web,Lentidão,Portal,Baixa,Resolvido,17,1
+A0102,C058,2026-08-23T14:54,Aplicativo Mobile,Dúvida de utilização,Telefone,Normal,Pendente,,
+A0103,C046,2026-07-11T08:11,Sistema Alfa,Dúvida de utilização,E-mail,Baixa,Resolvido,15,3
+A0104,C001,2026-07-01T08:19,Aplicativo Mobile,Erro no sistema,WhatsApp,Normal,Resolvido,170,5
+A0105,C044,2026-07-23T17:15,Aplicativo Mobile,Atualização,WhatsApp,Normal,Resolvido,19,5
+A0106,C066,2026-07-20T17:55,Sistema Beta,Dúvida de utilização,Telefone,Normal,Resolvido,123,5
+A0107,C027,2026-07-25T11:31,Sistema Alfa,Dúvida de utilização,Portal,Alta,Resolvido,23,5
+A0108,C016,2026-09-10T09:08,Portal Web,Atualização,Portal,Baixa,Resolvido,157,4
+A0109,C003,2026-08-30T13:20,Aplicativo Mobile,Solicitação de melhoria,Telefone,Normal,Resolvido,74,3
+A0110,C043,2026-08-20T15:26,Aplicativo Mobile,Dúvida de utilização,Telefone,Normal,Resolvido,209,2
+A0111,C033,2026-07-18T12:07,Sistema Beta,Dúvida de utilização,Portal,Alta,Pendente,,
+A0112,C034,2026-08-22T14:51,Sistema Beta,Erro no sistema,WhatsApp,Alta,Resolvido,46,1
+A0113,C068,2026-09-29T12:09,Aplicativo Mobile,Lentidão,Telefone,Baixa,Resolvido,169,5
+A0114,C067,2026-08-29T08:50,Sistema Alfa,Erro no sistema,WhatsApp,Normal,Resolvido,182,4
+A0115,C070,2026-07-02T12:07,Sistema Alfa,Relatório,Telefone,Baixa,Resolvido,88,5
+A0116,C030,2026-08-13T10:24,Sistema Beta,Lentidão,Portal,Alta,Resolvido,159,5
+A0117,C068,2026-08-29T14:44,Aplicativo Mobile,Lentidão,WhatsApp,Alta,Resolvido,16,2
+A0118,C023,2026-07-25T16:22,Sistema Beta,Dúvida de utilização,Telefone,Baixa,Resolvido,110,1
+A0119,C070,2026-09-27T17:25,Portal Web,Solicitação de melhoria,Telefone,Baixa,Pendente,,
+A0120,C017,2026-08-07T14:55,Portal Web,Relatório,WhatsApp,Baixa,Resolvido,89,1
+A0121,C007,2026-08-25T11:56,Aplicativo Mobile,Acesso e senha,WhatsApp,Alta,Resolvido,192,2
+A0122,C083,2026-07-22T12:14,Portal Web,Dúvida de utilização,WhatsApp,Normal,Resolvido,68,2
+A0123,C077,2026-09-08T08:49,Sistema Alfa,Solicitação de melhoria,WhatsApp,Normal,Resolvido,34,3
+A0124,C025,2026-07-19T10:22,Sistema Alfa,Acesso e senha,E-mail,Baixa,Resolvido,8,4
+A0125,C092,2026-07-11T12:34,Sistema Beta,Dúvida de utilização,E-mail,Baixa,Resolvido,43,3
+A0126,C015,2026-09-06T10:51,Sistema Alfa,Acesso e senha,Telefone,Normal,Pendente,,
+A0127,C048,2026-07-15T10:11,Aplicativo Mobile,Lentidão,Telefone,Alta,Pendente,,
+A0128,C063,2026-09-01T14:02,Portal Web,Relatório,Portal,Baixa,Resolvido,82,4
+A0129,C067,2026-08-06T10:16,Sistema Beta,Atualização,Portal,Baixa,Resolvido,43,4
+A0130,C040,2026-09-19T15:25,Aplicativo Mobile,Instalação,WhatsApp,Alta,Resolvido,110,5
+A0131,C029,2026-08-20T08:42,Sistema Alfa,Erro no sistema,Portal,Normal,Resolvido,220,4
+A0132,C007,2026-08-24T12:44,Sistema Beta,Atualização,Portal,Alta,Resolvido,64,4
+A0133,C070,2026-08-29T09:00,Portal Web,Relatório,E-mail,Normal,Resolvido,167,4
+A0134,C052,2026-07-06T11:29,Sistema Beta,Instalação,Portal,Baixa,Resolvido,53,4
+A0135,C050,2026-08-31T13:24,Aplicativo Mobile,Acesso e senha,E-mail,Baixa,Resolvido,136,4
+A0136,C070,2026-09-02T16:33,Aplicativo Mobile,Acesso e senha,Telefone,Baixa,Resolvido,52,5
+A0137,C024,2026-09-13T16:56,Aplicativo Mobile,Acesso e senha,WhatsApp,Alta,Resolvido,121,3
+A0138,C015,2026-07-04T17:33,Sistema Alfa,Acesso e senha,Telefone,Baixa,Resolvido,161,4
+A0139,C097,2026-07-22T08:54,Sistema Beta,Lentidão,E-mail,Normal,Resolvido,134,2
+A0140,C040,2026-09-02T16:09,Portal Web,Lentidão,E-mail,Baixa,Resolvido,21,5
+A0141,C028,2026-08-29T15:17,Portal Web,Dúvida de utilização,Telefone,Normal,Pendente,,
+A0142,C022,2026-07-15T14:44,Sistema Alfa,Erro no sistema,E-mail,Normal,Resolvido,129,2
+A0143,C028,2026-08-08T15:41,Sistema Beta,Instalação,E-mail,Normal,Resolvido,210,4
+A0144,C023,2026-09-07T17:36,Sistema Beta,Dúvida de utilização,Portal,Baixa,Resolvido,17,3
+A0145,C091,2026-09-04T14:37,Aplicativo Mobile,Solicitação de melhoria,WhatsApp,Baixa,Pendente,,
+A0146,C029,2026-07-16T10:56,Portal Web,Erro no sistema,WhatsApp,Baixa,Pendente,,
+A0147,C086,2026-09-20T17:23,Sistema Beta,Lentidão,E-mail,Normal,Resolvido,46,1
+A0148,C050,2026-09-02T17:32,Sistema Beta,Atualização,E-mail,Normal,Resolvido,56,4
+A0149,C042,2026-08-25T08:45,Portal Web,Lentidão,WhatsApp,Normal,Pendente,,
+A0150,C010,2026-08-07T13:39,Aplicativo Mobile,Dúvida de utilização,E-mail,Alta,Resolvido,201,1
+A0151,C082,2026-08-12T08:01,Sistema Alfa,Instalação,E-mail,Normal,Resolvido,125,5
+A0152,C070,2026-07-01T09:13,Sistema Alfa,Dúvida de utilização,E-mail,Normal,Resolvido,68,5
+A0153,C098,2026-09-09T11:57,Portal Web,Acesso e senha,Portal,Alta,Resolvido,126,5
+A0154,C009,2026-07-10T08:07,Portal Web,Acesso e senha,E-mail,Normal,Resolvido,155,5
+A0155,C040,2026-07-09T13:06,Sistema Beta,Solicitação de melhoria,Telefone,Normal,Pendente,,
+A0156,C097,2026-07-07T10:22,Sistema Beta,Dúvida de utilização,WhatsApp,Alta,Resolvido,82,5
+A0157,C071,2026-08-06T17:38,Sistema Beta,Acesso e senha,Telefone,Normal,Resolvido,92,2
+A0158,C063,2026-07-28T14:41,Aplicativo Mobile,Erro no sistema,E-mail,Baixa,Resolvido,152,5
+A0159,C037,2026-08-04T15:19,Sistema Alfa,Lentidão,E-mail,Alta,Pendente,,
+A0160,C075,2026-09-16T16:02,Aplicativo Mobile,Instalação,Telefone,Normal,Resolvido,195,4
+A0161,C097,2026-07-24T16:17,Sistema Alfa,Atualização,Portal,Normal,Pendente,,
+A0162,C091,2026-08-03T08:41,Sistema Alfa,Erro no sistema,Portal,Normal,Resolvido,216,4
+A0163,C075,2026-07-21T14:41,Portal Web,Instalação,Telefone,Baixa,Resolvido,106,4
+A0164,C032,2026-08-29T17:58,Sistema Alfa,Dúvida de utilização,Portal,Baixa,Pendente,,
+A0165,C036,2026-08-27T15:24,Aplicativo Mobile,Relatório,WhatsApp,Alta,Resolvido,57,5
+A0166,C069,2026-08-09T12:04,Portal Web,Acesso e senha,WhatsApp,Baixa,Resolvido,141,1
+A0167,C055,2026-08-24T11:06,Portal Web,Atualização,Portal,Normal,Resolvido,77,4
+A0168,C098,2026-09-04T08:46,Aplicativo Mobile,Dúvida de utilização,Portal,Normal,Pendente,,
+A0169,C069,2026-09-02T10:44,Sistema Beta,Dúvida de utilização,Telefone,Baixa,Resolvido,79,4
+A0170,C002,2026-09-03T12:35,Sistema Alfa,Lentidão,Telefone,Alta,Resolvido,94,5
+A0171,C087,2026-09-19T15:48,Aplicativo Mobile,Atualização,Portal,Baixa,Resolvido,165,4
+A0172,C067,2026-09-04T12:36,Sistema Alfa,Relatório,Portal,Alta,Resolvido,155,4
+A0173,C077,2026-09-08T13:20,Portal Web,Relatório,E-mail,Alta,Resolvido,133,4
+A0174,C098,2026-09-21T16:12,Aplicativo Mobile,Instalação,Portal,Alta,Pendente,,
+A0175,C008,2026-09-03T13:12,Aplicativo Mobile,Relatório,WhatsApp,Normal,Resolvido,25,3
+A0176,C063,2026-08-03T16:57,Sistema Beta,Relatório,WhatsApp,Baixa,Resolvido,59,3
+A0177,C010,2026-08-26T10:53,Aplicativo Mobile,Dúvida de utilização,E-mail,Normal,Resolvido,43,3
+A0178,C005,2026-09-06T08:30,Portal Web,Atualização,E-mail,Normal,Resolvido,133,5
+A0179,C061,2026-07-04T09:55,Sistema Beta,Dúvida de utilização,Telefone,Alta,Resolvido,106,4
+A0180,C018,2026-07-12T15:55,Portal Web,Relatório,Telefone,Alta,Resolvido,79,2
+A0181,C041,2026-07-16T13:36,Aplicativo Mobile,Dúvida de utilização,Portal,Baixa,Resolvido,61,4
+A0182,C062,2026-08-31T09:19,Portal Web,Instalação,E-mail,Baixa,Resolvido,127,3
+A0183,C018,2026-08-31T09:14,Portal Web,Relatório,Telefone,Baixa,Resolvido,52,3
+A0184,C006,2026-08-05T10:33,Sistema Alfa,Solicitação de melhoria,E-mail,Baixa,Resolvido,48,5
+A0185,C028,2026-08-13T17:05,Portal Web,Erro no sistema,E-mail,Baixa,Resolvido,210,5
+A0186,C061,2026-08-07T09:50,Sistema Beta,Instalação,Portal,Normal,Resolvido,208,4
+A0187,C010,2026-08-16T10:01,Portal Web,Lentidão,WhatsApp,Normal,Resolvido,192,4
+A0188,C011,2026-07-24T14:57,Sistema Beta,Solicitação de melhoria,E-mail,Normal,Pendente,,
+A0189,C096,2026-07-23T15:51,Aplicativo Mobile,Acesso e senha,E-mail,Baixa,Resolvido,27,5
+A0190,C095,2026-08-24T08:20,Sistema Beta,Instalação,WhatsApp,Alta,Resolvido,96,5
+A0191,C003,2026-08-27T09:19,Aplicativo Mobile,Acesso e senha,Telefone,Normal,Resolvido,106,4
+A0192,C090,2026-07-27T12:33,Sistema Beta,Lentidão,Portal,Baixa,Resolvido,145,3
+A0193,C092,2026-08-02T17:51,Sistema Beta,Atualização,E-mail,Baixa,Resolvido,16,4
+A0194,C027,2026-08-13T17:45,Sistema Beta,Acesso e senha,Telefone,Alta,Resolvido,208,4
+A0195,C057,2026-08-11T11:55,Portal Web,Atualização,Portal,Normal,Resolvido,92,5
+A0196,C035,2026-09-23T13:05,Portal Web,Instalação,E-mail,Alta,Pendente,,
+A0197,C080,2026-09-16T10:38,Aplicativo Mobile,Erro no sistema,WhatsApp,Alta,Resolvido,266,5
+A0198,C081,2026-09-27T16:28,Sistema Alfa,Erro no sistema,E-mail,Normal,Resolvido,182,4
+A0199,C064,2026-07-07T13:46,Sistema Beta,Solicitação de melhoria,Portal,Alta,Resolvido,201,5
+A0200,C052,2026-07-19T13:15,Sistema Beta,Dúvida de utilização,E-mail,Alta,Resolvido,156,5
+A0201,C061,2026-09-27T11:29,Sistema Alfa,Atualização,WhatsApp,Baixa,Resolvido,17,4
+A0202,C069,2026-07-21T15:29,Portal Web,Solicitação de melhoria,Telefone,Normal,Resolvido,65,3
+A0203,C064,2026-07-29T14:40,Sistema Alfa,Instalação,E-mail,Baixa,Resolvido,149,3
+A0204,C089,2026-09-01T10:25,Portal Web,Dúvida de utilização,WhatsApp,Baixa,Resolvido,30,5
+A0205,C042,2026-07-10T14:41,Sistema Beta,Lentidão,Portal,Normal,Resolvido,94,4
+A0206,C003,2026-09-10T09:33,Sistema Beta,Atualização,Telefone,Alta,Resolvido,138,4
+A0207,C021,2026-08-27T15:02,Portal Web,Acesso e senha,Portal,Normal,Resolvido,162,5
+A0208,C004,2026-07-07T09:25,Portal Web,Solicitação de melhoria,E-mail,Normal,Resolvido,160,4
+A0209,C058,2026-09-04T11:31,Aplicativo Mobile,Relatório,Portal,Baixa,Resolvido,118,5
+A0210,C091,2026-09-29T08:12,Aplicativo Mobile,Solicitação de melhoria,E-mail,Baixa,Pendente,,
+A0211,C091,2026-09-28T14:02,Portal Web,Solicitação de melhoria,E-mail,Normal,Resolvido,54,4
+A0212,C096,2026-08-05T09:21,Sistema Beta,Relatório,Portal,Baixa,Resolvido,80,5
+A0213,C037,2026-08-24T14:43,Sistema Alfa,Erro no sistema,WhatsApp,Normal,Resolvido,176,3
+A0214,C016,2026-07-28T09:30,Portal Web,Erro no sistema,WhatsApp,Alta,Resolvido,265,3
+A0215,C048,2026-07-24T09:26,Portal Web,Erro no sistema,Telefone,Normal,Resolvido,178,4
+A0216,C083,2026-08-28T11:26,Aplicativo Mobile,Dúvida de utilização,Telefone,Baixa,Resolvido,201,2
+A0217,C048,2026-09-19T13:46,Aplicativo Mobile,Atualização,Telefone,Normal,Resolvido,181,2
+A0218,C094,2026-07-06T08:05,Aplicativo Mobile,Solicitação de melhoria,Telefone,Normal,Resolvido,43,5
+A0219,C057,2026-07-27T14:28,Aplicativo Mobile,Relatório,WhatsApp,Alta,Resolvido,176,5
+A0220,C049,2026-07-26T09:27,Portal Web,Relatório,WhatsApp,Alta,Resolvido,77,5
+A0221,C080,2026-08-30T17:44,Portal Web,Erro no sistema,WhatsApp,Normal,Resolvido,247,3
+A0222,C006,2026-08-27T09:49,Sistema Alfa,Instalação,Portal,Alta,Resolvido,149,5
+A0223,C071,2026-08-22T17:22,Sistema Beta,Lentidão,Portal,Normal,Pendente,,
+A0224,C033,2026-07-02T10:22,Aplicativo Mobile,Instalação,Telefone,Normal,Resolvido,50,4
+A0225,C069,2026-08-10T11:22,Aplicativo Mobile,Solicitação de melhoria,WhatsApp,Normal,Resolvido,36,5
+A0226,C068,2026-08-22T09:46,Aplicativo Mobile,Relatório,WhatsApp,Alta,Resolvido,68,1
+A0227,C051,2026-09-23T10:24,Aplicativo Mobile,Lentidão,WhatsApp,Baixa,Resolvido,187,4
+A0228,C058,2026-08-08T13:47,Portal Web,Relatório,E-mail,Alta,Resolvido,75,5
+A0229,C017,2026-07-22T13:59,Sistema Alfa,Lentidão,Portal,Normal,Resolvido,14,5
+A0230,C055,2026-08-04T11:18,Sistema Alfa,Acesso e senha,Portal,Baixa,Resolvido,61,5
+A0231,C070,2026-09-15T17:50,Aplicativo Mobile,Erro no sistema,Telefone,Baixa,Pendente,,
+A0232,C010,2026-08-03T16:07,Portal Web,Acesso e senha,Portal,Baixa,Resolvido,22,3
+A0233,C066,2026-08-16T11:02,Aplicativo Mobile,Relatório,Portal,Alta,Resolvido,16,3
+A0234,C048,2026-08-09T16:34,Sistema Alfa,Relatório,WhatsApp,Baixa,Resolvido,131,1
+A0235,C006,2026-07-26T10:02,Sistema Alfa,Lentidão,Portal,Baixa,Pendente,,
+A0236,C048,2026-09-02T15:05,Aplicativo Mobile,Instalação,Telefone,Normal,Pendente,,
+A0237,C069,2026-09-21T10:02,Sistema Beta,Relatório,WhatsApp,Baixa,Resolvido,184,5
+A0238,C052,2026-09-06T16:06,Sistema Beta,Dúvida de utilização,Portal,Baixa,Resolvido,75,3
+A0239,C051,2026-07-05T09:57,Aplicativo Mobile,Acesso e senha,Portal,Baixa,Resolvido,49,5
+A0240,C055,2026-07-19T08:41,Sistema Beta,Dúvida de utilização,Telefone,Alta,Pendente,,
+A0241,C071,2026-08-12T08:31,Aplicativo Mobile,Lentidão,E-mail,Normal,Resolvido,180,1
+A0242,C058,2026-07-09T10:57,Sistema Alfa,Solicitação de melhoria,Telefone,Alta,Resolvido,116,2
+A0243,C086,2026-07-16T12:45,Sistema Alfa,Dúvida de utilização,Telefone,Baixa,Resolvido,188,5
+A0244,C022,2026-09-21T16:48,Aplicativo Mobile,Atualização,Telefone,Baixa,Resolvido,146,2
+A0245,C027,2026-09-07T13:06,Portal Web,Lentidão,Telefone,Baixa,Pendente,,
+A0246,C037,2026-07-21T09:56,Aplicativo Mobile,Instalação,Portal,Normal,Resolvido,79,5
+A0247,C020,2026-07-02T16:52,Aplicativo Mobile,Dúvida de utilização,Portal,Normal,Pendente,,
+A0248,C016,2026-07-25T08:38,Sistema Alfa,Atualização,WhatsApp,Alta,Resolvido,94,5
+A0249,C100,2026-08-22T16:31,Sistema Alfa,Dúvida de utilização,WhatsApp,Normal,Resolvido,185,4
+A0250,C091,2026-08-22T15:11,Sistema Alfa,Atualização,Telefone,Baixa,Resolvido,35,5
+A0251,C087,2026-07-15T14:35,Portal Web,Dúvida de utilização,WhatsApp,Alta,Resolvido,75,4
+A0252,C080,2026-09-01T08:33,Sistema Beta,Atualização,E-mail,Alta,Resolvido,206,5
+A0253,C029,2026-09-18T09:54,Sistema Alfa,Instalação,Portal,Alta,Pendente,,
+A0254,C004,2026-08-03T15:34,Sistema Alfa,Dúvida de utilização,E-mail,Baixa,Resolvido,75,4
+A0255,C004,2026-09-14T09:33,Sistema Alfa,Instalação,WhatsApp,Normal,Resolvido,13,5
+A0256,C073,2026-09-13T14:20,Aplicativo Mobile,Dúvida de utilização,E-mail,Normal,Resolvido,44,3
+A0257,C020,2026-07-26T12:02,Sistema Beta,Acesso e senha,E-mail,Normal,Resolvido,200,3
+A0258,C075,2026-08-28T08:21,Sistema Alfa,Relatório,WhatsApp,Baixa,Resolvido,67,3
+A0259,C015,2026-07-03T16:54,Sistema Alfa,Dúvida de utilização,WhatsApp,Normal,Resolvido,121,3
+A0260,C092,2026-08-14T11:31,Sistema Alfa,Dúvida de utilização,Portal,Baixa,Resolvido,162,5
+A0261,C018,2026-07-16T15:10,Portal Web,Relatório,WhatsApp,Alta,Resolvido,41,3
+A0262,C036,2026-07-19T17:45,Sistema Beta,Atualização,WhatsApp,Baixa,Resolvido,70,5
+A0263,C001,2026-08-24T12:46,Aplicativo Mobile,Lentidão,E-mail,Alta,Resolvido,76,4
+A0264,C081,2026-08-20T08:58,Portal Web,Erro no sistema,Portal,Baixa,Resolvido,105,2
+A0265,C081,2026-09-28T14:42,Sistema Alfa,Atualização,Portal,Normal,Resolvido,180,4
+A0266,C073,2026-08-24T12:15,Sistema Beta,Instalação,E-mail,Normal,Resolvido,40,1
+A0267,C063,2026-08-16T08:38,Sistema Alfa,Atualização,Telefone,Baixa,Resolvido,22,5
+A0268,C038,2026-08-04T17:14,Portal Web,Atualização,WhatsApp,Normal,Resolvido,92,5
+A0269,C063,2026-08-26T11:37,Portal Web,Relatório,Telefone,Baixa,Resolvido,77,1
+A0270,C066,2026-08-13T17:25,Sistema Alfa,Dúvida de utilização,WhatsApp,Alta,Pendente,,
+A0271,C025,2026-07-05T15:21,Sistema Alfa,Instalação,E-mail,Alta,Resolvido,33,5
+A0272,C056,2026-07-31T14:55,Sistema Beta,Acesso e senha,Portal,Normal,Resolvido,68,4
+A0273,C065,2026-09-23T15:08,Sistema Alfa,Atualização,Portal,Normal,Resolvido,36,4
+A0274,C059,2026-08-13T08:21,Aplicativo Mobile,Solicitação de melhoria,WhatsApp,Baixa,Resolvido,189,3
+A0275,C029,2026-09-22T14:36,Portal Web,Erro no sistema,Telefone,Normal,Resolvido,177,3
+A0276,C025,2026-08-24T16:21,Aplicativo Mobile,Relatório,E-mail,Baixa,Resolvido,147,3
+A0277,C047,2026-07-06T11:49,Sistema Alfa,Solicitação de melhoria,Telefone,Alta,Resolvido,72,5
+A0278,C028,2026-07-20T17:24,Portal Web,Relatório,Portal,Alta,Resolvido,181,2
+A0279,C010,2026-08-03T10:16,Portal Web,Acesso e senha,E-mail,Normal,Resolvido,167,4
+A0280,C083,2026-09-25T10:49,Sistema Beta,Lentidão,Telefone,Normal,Resolvido,143,3
+A0281,C018,2026-09-18T11:06,Aplicativo Mobile,Solicitação de melhoria,WhatsApp,Baixa,Resolvido,21,2
+A0282,C092,2026-08-28T15:54,Sistema Alfa,Lentidão,Portal,Baixa,Pendente,,
+A0283,C021,2026-08-04T12:46,Portal Web,Dúvida de utilização,Portal,Baixa,Resolvido,115,3
+A0284,C044,2026-09-21T14:09,Portal Web,Instalação,Portal,Alta,Resolvido,16,5
+A0285,C035,2026-07-17T11:40,Sistema Beta,Lentidão,E-mail,Alta,Resolvido,195,2
+A0286,C068,2026-08-18T12:46,Sistema Alfa,Solicitação de melhoria,Telefone,Normal,Resolvido,159,5
+A0287,C047,2026-08-09T17:50,Aplicativo Mobile,Erro no sistema,WhatsApp,Alta,Resolvido,191,3
+A0288,C007,2026-08-09T09:29,Portal Web,Solicitação de melhoria,E-mail,Normal,Resolvido,69,4
+A0289,C019,2026-09-29T16:07,Sistema Alfa,Solicitação de melhoria,Portal,Baixa,Resolvido,181,5
+A0290,C085,2026-07-10T17:30,Portal Web,Instalação,Telefone,Baixa,Resolvido,30,2
+A0291,C035,2026-07-06T15:20,Sistema Beta,Acesso e senha,WhatsApp,Baixa,Resolvido,204,5
+A0292,C084,2026-08-06T09:00,Portal Web,Lentidão,E-mail,Normal,Resolvido,151,1
+A0293,C037,2026-07-03T15:57,Portal Web,Solicitação de melhoria,Portal,Normal,Pendente,,
+A0294,C059,2026-07-14T16:56,Portal Web,Erro no sistema,E-mail,Baixa,Resolvido,198,5
+A0295,C030,2026-07-20T13:19,Aplicativo Mobile,Acesso e senha,E-mail,Baixa,Resolvido,84,3
+A0296,C002,2026-08-10T12:21,Sistema Beta,Atualização,WhatsApp,Normal,Resolvido,144,5
+A0297,C035,2026-09-07T15:38,Portal Web,Solicitação de melhoria,WhatsApp,Baixa,Resolvido,169,5
+A0298,C088,2026-08-31T16:39,Portal Web,Atualização,Portal,Alta,Resolvido,126,5
+A0299,C097,2026-07-07T10:51,Aplicativo Mobile,Instalação,E-mail,Alta,Resolvido,110,4
+A0300,C012,2026-09-05T13:38,Sistema Alfa,Solicitação de melhoria,Portal,Baixa,Resolvido,117,5

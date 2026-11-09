@@ -1,0 +1,101 @@
+cliente_id,nome_ficticio,porte,setor,cidade,data_cadastro
+C032,Empresa Exemplo 032,Micro,Comércio,Gravataí,1/27/2021
+C024,Empresa Exemplo 024,Pequena,Serviços,Gravataí,2/1/2021
+C063,Empresa Exemplo 063,Micro,Serviços,Novo Hamburgo,2/2/2021
+C080,Empresa Exemplo 080,Média,Serviços,Novo Hamburgo,2/5/2021
+C086,Empresa Exemplo 086,Média,Serviços,Cachoeirinha,2/17/2021
+C085,Empresa Exemplo 085,Média,Serviços,Novo Hamburgo,3/11/2021
+C069,Empresa Exemplo 069,Pequena,Serviços,Novo Hamburgo,3/18/2021
+C039,Empresa Exemplo 039,Média,Serviços,Gravataí,3/21/2021
+C055,Empresa Exemplo 055,Micro,Comércio,Cachoeirinha,5/4/2021
+C020,Empresa Exemplo 020,Pequena,Tecnologia,Novo Hamburgo,5/11/2021
+C087,Empresa Exemplo 087,Média,Comércio,Canoas,6/10/2021
+C027,Empresa Exemplo 027,Média,Indústria,Cachoeirinha,6/22/2021
+C079,Empresa Exemplo 079,Média,Indústria,Novo Hamburgo,7/13/2021
+C078,Empresa Exemplo 078,Pequena,Serviços,Porto Alegre,9/7/2021
+C033,Empresa Exemplo 033,Pequena,Indústria,Porto Alegre,9/16/2021
+C091,Empresa Exemplo 091,Pequena,Tecnologia,Gravataí,9/17/2021
+C022,Empresa Exemplo 022,Micro,Tecnologia,Gravataí,11/9/2021
+C058,Empresa Exemplo 058,Média,Tecnologia,Gravataí,11/12/2021
+C089,Empresa Exemplo 089,Micro,Indústria,Gravataí,12/3/2021
+C066,Empresa Exemplo 066,Micro,Tecnologia,Cachoeirinha,3/18/2022
+C040,Empresa Exemplo 040,Média,Serviços,Novo Hamburgo,3/22/2022
+C045,Empresa Exemplo 045,Média,Indústria,Porto Alegre,4/1/2022
+C067,Empresa Exemplo 067,Micro,Tecnologia,Canoas,4/1/2022
+C025,Empresa Exemplo 025,Pequena,Comércio,Novo Hamburgo,4/4/2022
+C053,Empresa Exemplo 053,Micro,Indústria,Canoas,5/9/2022
+C042,Empresa Exemplo 042,Micro,Tecnologia,Canoas,6/6/2022
+C005,Empresa Exemplo 005,Micro,Tecnologia,Canoas,7/9/2022
+C014,Empresa Exemplo 014,Média,Tecnologia,Gravataí,8/8/2022
+C096,Empresa Exemplo 096,Micro,Serviços,Gravataí,12/12/2022
+C023,Empresa Exemplo 023,Pequena,Indústria,Porto Alegre,12/28/2022
+C064,Empresa Exemplo 064,Micro,Indústria,Novo Hamburgo,1/14/2023
+C050,Empresa Exemplo 050,Média,Serviços,Porto Alegre,2/14/2023
+C004,Empresa Exemplo 004,Média,Comércio,Porto Alegre,2/15/2023
+C034,Empresa Exemplo 034,Pequena,Indústria,Gravataí,2/16/2023
+C047,Empresa Exemplo 047,Média,Serviços,Porto Alegre,3/12/2023
+C100,Empresa Exemplo 100,Média,Indústria,Cachoeirinha,3/18/2023
+C072,Empresa Exemplo 072,Média,Serviços,Gravataí,4/18/2023
+C017,Empresa Exemplo 017,Pequena,Tecnologia,Cachoeirinha,5/1/2023
+C082,Empresa Exemplo 082,Micro,Serviços,Cachoeirinha,5/18/2023
+C052,Empresa Exemplo 052,Micro,Comércio,Novo Hamburgo,5/19/2023
+C093,Empresa Exemplo 093,Micro,Comércio,Gravataí,5/25/2023
+C059,Empresa Exemplo 059,Média,Indústria,Gravataí,6/2/2023
+C073,Empresa Exemplo 073,Pequena,Indústria,Cachoeirinha,6/15/2023
+C098,Empresa Exemplo 098,Pequena,Serviços,Gravataí,6/27/2023
+C054,Empresa Exemplo 054,Micro,Comércio,Gravataí,7/1/2023
+C094,Empresa Exemplo 094,Média,Serviços,Cachoeirinha,7/17/2023
+C077,Empresa Exemplo 077,Micro,Comércio,Canoas,9/24/2023
+C057,Empresa Exemplo 057,Média,Comércio,Gravataí,10/7/2023
+C049,Empresa Exemplo 049,Média,Serviços,Novo Hamburgo,10/9/2023
+C090,Empresa Exemplo 090,Pequena,Indústria,Novo Hamburgo,11/4/2023
+C026,Empresa Exemplo 026,Média,Comércio,Novo Hamburgo,11/25/2023
+C060,Empresa Exemplo 060,Média,Tecnologia,Porto Alegre,12/11/2023
+C051,Empresa Exemplo 051,Micro,Comércio,Porto Alegre,12/26/2023
+C037,Empresa Exemplo 037,Média,Comércio,Novo Hamburgo,1/7/2024
+C071,Empresa Exemplo 071,Micro,Comércio,Cachoeirinha,1/8/2024
+C076,Empresa Exemplo 076,Micro,Indústria,Novo Hamburgo,1/21/2024
+C075,Empresa Exemplo 075,Pequena,Serviços,Cachoeirinha,3/16/2024
+C003,Empresa Exemplo 003,Média,Tecnologia,Novo Hamburgo,4/1/2024
+C097,Empresa Exemplo 097,Pequena,Tecnologia,Novo Hamburgo,4/5/2024
+C083,Empresa Exemplo 083,Pequena,Indústria,Cachoeirinha,4/24/2024
+C099,Empresa Exemplo 099,Micro,Indústria,Canoas,5/5/2024
+C043,Empresa Exemplo 043,Pequena,Tecnologia,Gravataí,5/15/2024
+C061,Empresa Exemplo 061,Pequena,Comércio,Canoas,6/19/2024
+C009,Empresa Exemplo 009,Média,Indústria,Canoas,7/3/2024
+C068,Empresa Exemplo 068,Micro,Indústria,Novo Hamburgo,7/9/2024
+C095,Empresa Exemplo 095,Média,Indústria,Canoas,7/11/2024
+C084,Empresa Exemplo 084,Média,Comércio,Novo Hamburgo,7/12/2024
+C065,Empresa Exemplo 065,Média,Serviços,Canoas,7/13/2024
+C044,Empresa Exemplo 044,Micro,Indústria,Novo Hamburgo,8/4/2024
+C019,Empresa Exemplo 019,Pequena,Serviços,Canoas,8/17/2024
+C041,Empresa Exemplo 041,Micro,Tecnologia,Canoas,9/14/2024
+C018,Empresa Exemplo 018,Micro,Serviços,Novo Hamburgo,9/16/2024
+C010,Empresa Exemplo 010,Pequena,Tecnologia,Porto Alegre,9/26/2024
+C046,Empresa Exemplo 046,Micro,Tecnologia,Canoas,9/26/2024
+C056,Empresa Exemplo 056,Micro,Indústria,Canoas,10/21/2024
+C074,Empresa Exemplo 074,Média,Tecnologia,Novo Hamburgo,11/19/2024
+C038,Empresa Exemplo 038,Média,Serviços,Porto Alegre,1/15/2025
+C012,Empresa Exemplo 012,Pequena,Tecnologia,Novo Hamburgo,1/19/2025
+C062,Empresa Exemplo 062,Micro,Indústria,Cachoeirinha,1/24/2025
+C088,Empresa Exemplo 088,Micro,Serviços,Novo Hamburgo,4/5/2025
+C031,Empresa Exemplo 031,Pequena,Tecnologia,Cachoeirinha,4/13/2025
+C028,Empresa Exemplo 028,Média,Tecnologia,Cachoeirinha,4/16/2025
+C036,Empresa Exemplo 036,Pequena,Indústria,Gravataí,4/22/2025
+C008,Empresa Exemplo 008,Pequena,Tecnologia,Cachoeirinha,5/1/2025
+C029,Empresa Exemplo 029,Média,Serviços,Novo Hamburgo,5/3/2025
+C081,Empresa Exemplo 081,Média,Tecnologia,Canoas,5/10/2025
+C021,Empresa Exemplo 021,Pequena,Comércio,Gravataí,5/15/2025
+C030,Empresa Exemplo 030,Pequena,Serviços,Cachoeirinha,5/17/2025
+C015,Empresa Exemplo 015,Micro,Tecnologia,Gravataí,5/18/2025
+C011,Empresa Exemplo 011,Média,Tecnologia,Gravataí,5/28/2025
+C092,Empresa Exemplo 092,Micro,Indústria,Gravataí,6/3/2025
+C035,Empresa Exemplo 035,Pequena,Serviços,Cachoeirinha,9/7/2025
+C007,Empresa Exemplo 007,Média,Indústria,Porto Alegre,9/10/2025
+C002,Empresa Exemplo 002,Micro,Serviços,Novo Hamburgo,9/14/2025
+C006,Empresa Exemplo 006,Pequena,Indústria,Gravataí,11/3/2025
+C013,Empresa Exemplo 013,Micro,Serviços,Porto Alegre,11/4/2025
+C001,Empresa Exemplo 001,Micro,Indústria,Novo Hamburgo,11/28/2025
+C048,Empresa Exemplo 048,Média,Serviços,Porto Alegre,12/9/2025
+C070,Empresa Exemplo 070,Micro,Indústria,Canoas,12/11/2025
+C016,Empresa Exemplo 016,Pequena,Indústria,Novo Hamburgo,12/16/2025
