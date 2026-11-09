@@ -9,6 +9,16 @@ Hackathon Data Cempro + Cesuca 2026.
 4. **Solução:** um assistente de triagem com IA que classifica cada chamado novo (serviço, assunto, prioridade, fila) e sobe a prioridade quando o cliente está em risco de churn, calculado por um score explicável que cruza os 3 arquivos.
 5. **Benefício:** hoje chamados de prioridade Alta demoram mais que os de Baixa (130 vs 102 min); com a triagem, o que é urgente e o cliente que pode cancelar vão para o topo da fila.
 
+## Os 6 objetivos do desafio
+| Objetivo | Como a solução atende |
+|---|---|
+| Informar | Visão geral, Operação de suporte e Qualidade dos dados |
+| Automatizar | Triagem IA classifica, encaminha e sugere a primeira resposta |
+| Prever | Score de risco de churn e tempo estimado de resolução |
+| Organizar | Fila repriorizada e roteamento automático para a fila |
+| Priorizar | Níveis de severidade + risco de churn do cliente sobe a prioridade |
+| Facilitar decisões | Ranking de risco, ficha do cliente, ação sugerida e export CSV para o CS |
+
 ## Como rodar
 
 ### Docker (recomendado)

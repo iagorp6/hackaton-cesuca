@@ -1,10 +1,23 @@
-# Roteiro do pitch (5 min) · Nexo Sistemas
+# Roteiro do pitch (5 min) · Data Cempro
 
-**Empresa fictícia:** Nexo Sistemas, SaaS de gestão para pequenas e médias empresas (Serviços, Indústria, Tecnologia, Comércio).
-Produtos: Sistema Alfa = ERP/estoque, Sistema Beta = financeiro e faturamento, Portal Web = autoatendimento, App = gestão pelo celular.
-Gancho: **"para uma PME, sistema parado é faturamento parado."**
+**Empresa do caso:** a própria **Data Cempro**. Os dados do desafio representam a operação de suporte dela: 100 clientes empresariais (Serviços, Indústria, Tecnologia, Comércio) usando 4 produtos (Sistema Alfa, Sistema Beta, Portal Web, Aplicativo Mobile).
+Gancho: **"para o cliente da Data Cempro, sistema parado é operação parada. E para a Data Cempro, cliente mal atendido é contrato cancelado."**
 
 Dica do reitor: a banca valoriza processo, simplificação e automação, não o código. Cada frase responde: *que etapa do processo isso elimina ou padroniza?*
+
+## Os 6 verbos do desafio (mostrar que cobrimos TODOS)
+O desafio pede uma solução que possa **informar, automatizar, prever, organizar, priorizar ou facilitar decisões**. A nossa faz as seis:
+
+| Verbo | Onde está na solução | O que falar |
+|---|---|---|
+| **Informar** | Visão geral, Operação de suporte, Qualidade dos dados | "Gestor vê KPIs, SLA invertido e inconsistências dos dados numa tela." |
+| **Automatizar** | Triagem IA + primeira resposta sugerida | "Classificar, encaminhar e responder deixam de ser trabalho manual." |
+| **Prever** | Radar de churn + tempo estimado de resolução | "Sabemos quem pode cancelar antes de cancelar, e quanto o chamado deve levar." |
+| **Organizar** | Fila repriorizada + roteamento para a fila certa | "Uma fila única, ordenada por regra, não por ordem de chegada." |
+| **Priorizar** | 5 níveis de severidade + risco de churn sobe o nível | "Prioridade por critério auditável, não no feeling." |
+| **Facilitar decisões** | Ranking de risco, ficha do cliente, ação sugerida, export CSV | "O CS recebe quem contatar, por quê e o que fazer." |
+
+Dica: no fechamento, ler os 6 verbos em sequência apontando para a tela.
 
 ## A banca e o que cada um valoriza
 
@@ -16,7 +29,7 @@ Dica do reitor: a banca valoriza processo, simplificação e automação, não o
 
 ## 0:00 a 1:00 · Problema (quem fala: pessoa mais segura na oratória)
 Tela: aba **🔄 Processo: antes x depois**
-- "A Nexo atende 100 empresas. Quando o sistema delas para, o faturamento delas para."
+- "A Data Cempro atende 100 empresas. Quando o sistema delas para, a operação delas para."
 - "Hoje o chamado chega por 4 canais, alguém lê, classifica e decide a prioridade no feeling."
 - "Prova: Relatório é marcado como urgente em 46% das vezes, erro de sistema só em 38%. Não existe critério."
 - "Resultado: o chamado urgente espera mais que o não urgente, 126 contra 100 minutos. São 57 horas de espera extra só nos urgentes."
@@ -29,6 +42,7 @@ Tela: aba **🔄 Processo: antes x depois**
 4. **Ranking / Ficha do cliente** (40 s): "o relacionamento recebe quem pode cancelar, o motivo e a ação sugerida, antes do cancelamento."
 
 ## 4:00 a 5:00 · Resultado
+- "Informamos, automatizamos, prevemos, organizamos, priorizamos e facilitamos decisões: os 6 pontos do desafio numa solução só."
 - "Uma regra única no lugar de decisões individuais: prioridade padronizada e auditável."
 - "Com as nossas premissas, cerca de 150 horas por mês de triagem manual viram tempo para resolver chamado." (premissas ajustáveis na tela)
 - "Se a IA cair, o processo continua por regras. O atendimento nunca para."
@@ -44,7 +58,7 @@ Tela: aba **🔄 Processo: antes x depois**
 **Dev front-end**
 - *Por que Streamlit?* Para validar o processo em 2 horas. A lógica fica separada da tela (`radar.py`, `triagem.py`), então dá para trocar o front por React sem reescrever a regra.
 - *E se a IA demorar ou falhar?* Tem fallback automático por regras e a tela avisa qual motor está ativo.
-- *Funciona no celular?* Layout responsivo do Streamlit; versão final seria integrada ao Portal/App da Nexo.
+- *Funciona no celular?* Layout responsivo do Streamlit; versão final seria integrada ao Portal/App da Data Cempro.
 
 **Professor**
 - *Isso é machine learning?* O score de churn não é: é uma regra ponderada e explicável, porque os dados não têm rótulo de cancelamento. A IA entra só na classificação do texto do chamado.
