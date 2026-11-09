@@ -34,8 +34,8 @@ st.title("📡 Radar de Churn")
 st.caption("Quais clientes estão em risco de cancelar, por quê, e o que o time de CS deve fazer agora. "
            "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
 
-aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
-    ["🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
+aba_proc, aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
+    ["🔄 Processo: antes x depois", "🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
      "Operação de suporte", "Qualidade dos dados"]
 )
 
@@ -46,6 +46,77 @@ EXEMPLOS = {
     "Portal lento": "O portal está muito lento hoje, as telas demoram mais de 1 minuto pra carregar.",
     "Sugestão de relatório": "Seria bom se o relatório mensal pudesse ser exportado em Excel, quando puderem.",
 }
+
+# ---------------- Processo: antes x depois ----------------
+with aba_proc:
+    st.markdown("### O foco não é o código, é o **processo de atendimento** que fica mais simples e automático.")
+    res_p = atend[atend["status"] == "Resolvido"]
+    med = res_p.groupby("prioridade")["tempo_resolucao_min"].median().reindex(["Alta", "Normal", "Baixa"])
+    pend_p = atend[atend["status"] == "Pendente"]
+    excesso_h = (res_p.loc[res_p["prioridade"] == "Alta", "tempo_resolucao_min"] - med["Baixa"]).clip(lower=0).sum() / 60
+
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Canais de entrada", atend["canal"].nunique(), help="WhatsApp, E-mail, Portal e Telefone, sem porta única")
+    k2.metric("Chamados pendentes", len(pend_p))
+    k3.metric("Mediana Alta x Baixa", f"{med['Alta']:.0f} x {med['Baixa']:.0f} min", "SLA invertido", delta_color="inverse")
+    k4.metric("Espera extra dos chamados Alta", f"{excesso_h:.0f} h",
+              help="Soma do tempo que cada chamado Alta passou da mediana dos chamados Baixa")
+
+    a, b = st.columns(2)
+    with a:
+        st.markdown("#### ❌ Hoje (AS-IS)")
+        st.markdown(
+            "1. Chamado chega por **4 canais** diferentes\n"
+            "2. Atendente **lê e classifica à mão** (serviço, assunto)\n"
+            "3. Prioridade **definida no feeling**, sem critério\n"
+            "4. Encaminha para a fila manualmente\n"
+            "5. Fila por **ordem de chegada**, sem olhar o cliente\n"
+            "6. Escreve a primeira resposta do zero\n"
+            "7. CS só descobre o cliente insatisfeito **quando ele cancela**"
+        )
+    with b:
+        st.markdown("#### ✅ Com a solução (TO-BE)")
+        st.markdown(
+            "1. Chamado entra (qualquer canal) e vai para **um único passo de triagem**\n"
+            "2. IA classifica **serviço e assunto automaticamente**\n"
+            "3. Prioridade por **regra única**: impacto do texto + risco de churn do cliente\n"
+            "4. Fila de destino definida **automaticamente**\n"
+            "5. Fila **repriorizada** por prioridade, risco e dias em aberto\n"
+            "6. **Primeira resposta sugerida** pronta para enviar\n"
+            "7. Radar avisa o CS **antes** do cancelamento, com ação sugerida"
+        )
+
+    st.markdown("#### Evidência: a priorização manual não segue critério")
+    c1, c2 = st.columns(2)
+    alta_assunto = (atend.assign(alta=atend["prioridade"].eq("Alta"))
+                    .groupby("assunto")["alta"].mean().mul(100).round(0).sort_values().reset_index())
+    c1.plotly_chart(px.bar(alta_assunto, x="alta", y="assunto", orientation="h",
+                           labels={"alta": "% marcado como Alta", "assunto": ""},
+                           title="Relatório é marcado Alta mais vezes que Erro"), use_container_width=True)
+    c2.plotly_chart(px.bar(med.reset_index(), x="prioridade", y="tempo_resolucao_min",
+                           labels={"tempo_resolucao_min": "mediana (min)", "prioridade": ""},
+                           title="Quem é urgente espera mais (SLA invertido)"), use_container_width=True)
+
+    st.markdown("#### Etapas manuais eliminadas (estimativa)")
+    st.caption("Premissas ajustáveis. Não temos o tempo real de cada etapa nos dados, então os minutos são hipóteses para discussão.")
+    e1, e2 = st.columns([1, 2])
+    with e1:
+        vol = st.number_input("Chamados por mês", 50, 100000, len(atend) // 3 * 10, step=50,
+                              help="Base: 300 chamados em 3 meses na amostra; ajuste para o volume real")
+        m_class = st.number_input("Min. para ler e classificar", 0.0, 30.0, 3.0, 0.5)
+        m_prio = st.number_input("Min. para decidir prioridade e fila", 0.0, 30.0, 2.0, 0.5)
+        m_resp = st.number_input("Min. para escrever 1ª resposta", 0.0, 30.0, 4.0, 0.5)
+    etapas = pd.DataFrame({
+        "etapa": ["Ler e classificar", "Prioridade e fila", "Primeira resposta"],
+        "antes": ["Manual", "Manual, sem critério", "Manual, do zero"],
+        "depois": ["Automática (IA)", "Automática (regra + risco)", "Rascunho pronto, só revisar"],
+        "min_por_chamado": [m_class, m_prio, m_resp],
+    })
+    etapas["horas_mes_liberadas"] = (etapas["min_por_chamado"] * vol / 60).round(0)
+    with e2:
+        st.dataframe(etapas, hide_index=True, use_container_width=True)
+        st.success(f"**~{etapas['horas_mes_liberadas'].sum():.0f} horas/mês** de trabalho manual de triagem "
+                   f"liberadas para resolver chamados, com {vol} chamados/mês.")
 
 # ---------------- Triagem IA ----------------
 with aba_triagem:
