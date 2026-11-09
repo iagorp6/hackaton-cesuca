@@ -34,6 +34,22 @@ ollama serve               # se ainda não estiver rodando
 ```
 No `docker compose`, o container já aponta para o Ollama do PC via `host.docker.internal`.
 
+**Ollama Cloud (com chave):** a chave fica só no ambiente, nunca no código. O jeito mais simples: `cp .env.example .env` e preencher `OLLAMA_API_KEY` (o `.env` está no `.gitignore`; o app e o `docker compose` leem ele automaticamente). Ou via variável:
+```bash
+# Linux/macOS
+export OLLAMA_API_KEY="sua-chave"; export OLLAMA_MODEL="gpt-oss:20b"
+streamlit run app.py
+# Windows PowerShell
+$env:OLLAMA_API_KEY="sua-chave"; $env:OLLAMA_MODEL="gpt-oss:20b"; streamlit run app.py
+# Docker (lê o .env automaticamente)
+docker compose up --build
+```
+
+**Plano B, Ollama local dockerizado** (baixa ~2 GB, roda em CPU, mais lento):
+```bash
+OLLAMA_HOST=http://ollama:11434 OLLAMA_MODEL=qwen2.5:3b docker compose --profile local up --build
+```
+
 ### Python local
 ```bash
 python -m venv .venv

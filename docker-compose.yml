@@ -3,12 +3,26 @@ services:
     build: .
     ports:
       - "8501:8501"
+    env_file:
+      - path: .env          # OLLAMA_API_KEY / ANTHROPIC_API_KEY ficam aqui (fora do git)
+        required: false
     environment:
-      # Ollama rodando no PC (fora do container). Se não estiver rodando, a triagem usa regras.
-      - OLLAMA_HOST=http://host.docker.internal:11434
-      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:3b}
-      # Opcional: chave da API Anthropic (console.anthropic.com). Nunca commitar.
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      # Padrão: Ollama Cloud se OLLAMA_API_KEY estiver no .env; senão Ollama do PC.
+      # Plano B dockerizado: OLLAMA_HOST=http://ollama:11434 docker compose --profile local up --build
+      - OLLAMA_HOST=${OLLAMA_HOST:-http://host.docker.internal:11434}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
+
+  # Plano B: Ollama local em container (só sobe com --profile local)
+  ollama:
+    image: ollama/ollama:0.12.6
+    profiles: ["local"]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 3 && ollama pull ${OLLAMA_MODEL:-qwen2.5:3b} && wait"]
+
+volumes:
+  ollama:

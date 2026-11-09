@@ -1,3 +1,15 @@
 __pycache__/
 *.pyc
 .venv/
+venv/
+# segredos: nunca commitar
+.env
+.env.*
+!.env.example
+*.key
+.streamlit/secrets.toml
+# SO / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

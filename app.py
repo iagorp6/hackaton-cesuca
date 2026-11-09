@@ -51,7 +51,7 @@ EXEMPLOS = {
 with aba_triagem:
     st.markdown("Chamado novo entra, a IA classifica e a **prioridade final considera o risco de churn do cliente**.")
     motor = motor_llm()
-    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama local ({OLLAMA_MODEL})"}.get(
+    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama ({OLLAMA_MODEL})"}.get(
         motor, "🟡 Nenhum LLM encontrado (sem ANTHROPIC_API_KEY e sem Ollama): usando classificador por palavras-chave"))
     t1, t2 = st.columns([1, 2])
     with t1:
