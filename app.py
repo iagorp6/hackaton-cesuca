@@ -92,10 +92,10 @@ with aba_proc:
                     .groupby("assunto")["alta"].mean().mul(100).round(0).sort_values().reset_index())
     c1.plotly_chart(px.bar(alta_assunto, x="alta", y="assunto", orientation="h",
                            labels={"alta": "% marcado como Alta", "assunto": ""},
-                           title="Relatório é marcado Alta mais vezes que Erro"), use_container_width=True)
+                           title="Relatório é marcado Alta mais vezes que Erro"), width="stretch")
     c2.plotly_chart(px.bar(med.reset_index(), x="prioridade", y="tempo_resolucao_min",
                            labels={"tempo_resolucao_min": "mediana (min)", "prioridade": ""},
-                           title="Quem é urgente espera mais (SLA invertido)"), use_container_width=True)
+                           title="Quem é urgente espera mais (SLA invertido)"), width="stretch")
 
     st.markdown("#### Etapas manuais eliminadas (estimativa)")
     st.caption("Premissas ajustáveis. Não temos o tempo real de cada etapa nos dados, então os minutos são hipóteses para discussão.")
@@ -114,7 +114,7 @@ with aba_proc:
     })
     etapas["horas_mes_liberadas"] = (etapas["min_por_chamado"] * vol / 60).round(0)
     with e2:
-        st.dataframe(etapas, hide_index=True, use_container_width=True)
+        st.dataframe(etapas, hide_index=True, width="stretch")
         st.success(f"**~{etapas['horas_mes_liberadas'].sum():.0f} horas/mês** de trabalho manual de triagem "
                    f"liberadas para resolver chamados, com {vol} chamados/mês.")
 
@@ -150,7 +150,7 @@ with aba_triagem:
                     f"<small>Motor: {res.motor}</small>", unsafe_allow_html=True)
         st.text_area("✉️ Primeira resposta sugerida ao cliente", res.resposta_sugerida, height=140)
         st.markdown("**Chamados parecidos** (do próprio cliente primeiro, depois mesmo assunto e serviço)")
-        st.dataframe(res.similares, hide_index=True, use_container_width=True)
+        st.dataframe(res.similares, hide_index=True, width="stretch")
 
 # ---------------- Fila repriorizada ----------------
 with aba_fila:
@@ -161,7 +161,7 @@ with aba_fila:
     f1.metric("Pendentes", len(fila))
     f2.metric("Pendentes de clientes em risco Alto/Médio", int(fila["faixa"].isin(["Alto", "Médio"]).sum()))
     f3.metric("Chamados que subiram 5+ posições", int((fila["mudanca"] >= 5).sum()))
-    st.dataframe(fila, hide_index=True, use_container_width=True,
+    st.dataframe(fila, hide_index=True, width="stretch",
                  column_config={"indice_urgencia": st.column_config.ProgressColumn("indice_urgencia", min_value=0, max_value=110, format="%.0f")})
 
 # ---------------- Visão geral ----------------
@@ -182,22 +182,22 @@ with aba_geral:
         dist = radar["faixa"].value_counts().reindex(ordem).fillna(0).reset_index()
         dist.columns = ["faixa", "clientes"]
         st.plotly_chart(px.bar(dist, x="faixa", y="clientes", color="faixa", color_discrete_map=cores,
-                               title="Clientes por faixa de risco"), use_container_width=True)
+                               title="Clientes por faixa de risco"), width="stretch")
     with c2:
         st.plotly_chart(px.histogram(radar, x="score", nbins=20, title="Distribuição do score"),
-                        use_container_width=True)
+                        width="stretch")
 
     c3, c4 = st.columns(2)
     with c3:
         seg = radar.groupby(["setor", "faixa"]).size().reset_index(name="clientes")
         st.plotly_chart(px.bar(seg, x="setor", y="clientes", color="faixa", color_discrete_map=cores,
                                category_orders={"faixa": ordem}, title="Risco por setor"),
-                        use_container_width=True)
+                        width="stretch")
     with c4:
         seg = radar.groupby(["porte", "faixa"]).size().reset_index(name="clientes")
         st.plotly_chart(px.bar(seg, x="porte", y="clientes", color="faixa", color_discrete_map=cores,
                                category_orders={"faixa": ordem, "porte": ["Micro", "Pequena", "Média"]},
-                               title="Risco por porte"), use_container_width=True)
+                               title="Risco por porte"), width="stretch")
 
 # ---------------- Ranking ----------------
 with aba_rank:
@@ -220,7 +220,7 @@ with aba_rank:
     cols = ["cliente_id", "nome_ficticio", "score", "faixa", "motivos", "acao_sugerida", "setor", "porte",
             "cidade", "acessos_jul", "acessos_ago", "acessos_set", "pendentes", "satisfacao_media"]
     st.dataframe(
-        r[cols], hide_index=True, use_container_width=True,
+        r[cols], hide_index=True, width="stretch",
         column_config={"score": st.column_config.ProgressColumn("score", min_value=0, max_value=100, format="%d")},
     )
     st.download_button("⬇️ Exportar lista para o CS (CSV)", r[cols].to_csv(index=False).encode("utf-8"),
@@ -245,15 +245,15 @@ with aba_cliente:
     })
     g1, g2 = st.columns(2)
     g1.plotly_chart(px.bar(comp, x="pontos", y="sinal", orientation="h", title="De onde vem o score"),
-                    use_container_width=True)
+                    width="stretch")
     hist = uso[uso["cliente_id"] == cid]
     g2.plotly_chart(px.line(hist, x="mes", y=["acessos", "operacoes_realizadas"], markers=True,
                             hover_data=["servico"], title="Uso mensal").update_xaxes(type="category"),
-                    use_container_width=True)
+                    width="stretch")
 
     st.subheader("Chamados")
     st.dataframe(atend[atend["cliente_id"] == cid].sort_values("data_abertura", ascending=False),
-                 hide_index=True, use_container_width=True)
+                 hide_index=True, width="stretch")
 
     st.subheader("✉️ Rascunho de mensagem de retenção")
     st.text_area("Copie e envie pelo canal do cliente", mensagem_retencao(row), height=260)
@@ -265,25 +265,25 @@ with aba_ops:
     o1, o2 = st.columns(2)
     t_prio = res.groupby("prioridade")["tempo_resolucao_min"].mean().reindex(["Alta", "Normal", "Baixa"]).reset_index()
     o1.plotly_chart(px.bar(t_prio, x="prioridade", y="tempo_resolucao_min",
-                           title="Tempo médio de resolução por prioridade (min)"), use_container_width=True)
+                           title="Tempo médio de resolução por prioridade (min)"), width="stretch")
     o1.warning("Chamados de prioridade **Alta** demoram mais que os de **Baixa**: a fila não respeita a prioridade.")
     t_ass = res.groupby("assunto").agg(tempo=("tempo_resolucao_min", "mean"),
                                        satisfacao=("satisfacao_1_a_5", "mean"),
                                        chamados=("atendimento_id", "count")).reset_index()
     o2.plotly_chart(px.scatter(t_ass, x="tempo", y="satisfacao", size="chamados", text="assunto",
-                               title="Assunto: tempo x satisfação"), use_container_width=True)
+                               title="Assunto: tempo x satisfação"), width="stretch")
     o3, o4 = st.columns(2)
     sat_serv = res.groupby("servico")["satisfacao_1_a_5"].mean().sort_values().reset_index()
     o3.plotly_chart(px.bar(sat_serv, x="satisfacao_1_a_5", y="servico", orientation="h",
-                           title="Satisfação média por serviço"), use_container_width=True)
+                           title="Satisfação média por serviço"), width="stretch")
     pend = atend[atend["status"] == "Pendente"].groupby(["prioridade", "assunto"]).size().reset_index(name="pendentes")
     o4.plotly_chart(px.bar(pend, x="assunto", y="pendentes", color="prioridade",
-                           title="Pendências por assunto e prioridade"), use_container_width=True)
+                           title="Pendências por assunto e prioridade"), width="stretch")
 
 # ---------------- Qualidade ----------------
 with aba_dados:
     st.markdown("Problemas encontrados nos arquivos fornecidos e como o radar lida com eles.")
-    st.dataframe(problemas_qualidade(clientes, atend, uso), hide_index=True, use_container_width=True)
+    st.dataframe(problemas_qualidade(clientes, atend, uso), hide_index=True, width="stretch")
     st.info(
         "• Queda de uso compara set com a média de jul e ago, somando todos os serviços do cliente.  \n"
         "• Pendentes não têm nota nem tempo, então entram só no sinal de pendências.  \n"
