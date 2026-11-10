@@ -19,6 +19,16 @@ O desafio pede uma solução que possa **informar, automatizar, prever, organiza
 
 Dica: no fechamento, ler os 6 verbos em sequência apontando para a tela.
 
+## Números do mercado (dizer sempre "segundo ...", detalhes em contexto/numeros-setor.md)
+- "Segundo a Zendesk CX Trends 2026, **85% dos líderes de atendimento** dizem que um único problema não resolvido basta para perder o cliente." (liga suporte a churn)
+- "Segundo benchmarks de mercado, churn em software para PMEs fica entre **14% e 22% ao ano**, bem acima do enterprise." (é o público da Vértice)
+- "Segundo a Zendesk, **95% dos clientes querem saber por que a IA decidiu**: por isso cada triagem e cada score mostra o motivo."
+
+## Tickets prontos para a demo (contexto/exemplos-tickets.md)
+- **VD-1001** (NF-e rejeitada, 9 caminhões parados, ameaça cancelar): mostra nível alto + cliente em risco subindo a prioridade.
+- **VD-1005** (elogio + sugestão de PDF): mostra nível baixo/planejado, não fura a fila.
+- **VD-1007** (reajuste de 18%, cita concorrente): mostra que o risco de churn vem do cliente, não só do texto.
+
 ## A banca e o que cada um valoriza
 
 | Avaliador | O que ele quer ouvir | Como falar com ele | Evitar |
@@ -49,6 +59,7 @@ Tela: aba **🔄 Processo: antes x depois**
 - "Próximo passo: uma entrada única para os 4 canais e alerta automático para o relacionamento."
 
 ## Perguntas prováveis e respostas curtas
+(Lista completa e conferida com o código em contexto/perguntas-banca.md.)
 
 **Diretor**
 - *Quanto custa?* Roda em Docker num servidor comum; a IA pode ser local (sem custo por uso) ou em nuvem. Sem IA, funciona por regras.
