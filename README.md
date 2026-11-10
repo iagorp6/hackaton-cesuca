@@ -98,8 +98,10 @@ Faixas: **Alto** >= 45, **Médio** 25 a 44, **Baixo** < 25. Com os pesos padrão
 app.py              interface Streamlit
 radar.py            cálculo do score (lógica separada da interface)
 triagem.py          classificação de chamados (Claude / Ollama / regras) e fila repriorizada
+regras_risco.py     níveis de severidade (🔴 Crítico a 🔵 Planejado) por sinais no texto + risco do cliente
+contexto/           pesquisa do time: modelo de severidade, tickets de demo, números do setor, perguntas da banca
 data/               clientes.csv, atendimentos.csv, uso_servicos.csv (convertidos dos .xlsx fornecidos)
-Dockerfile, docker-compose.yml
+Dockerfile, docker-compose.yml (o .dockerignore exclui .env, a chave nunca vai para a imagem)
 CONTEXTO_PROVA.md   resumo do regulamento e do desafio
 PITCH.md            roteiro do pitch com foco em processo
 ```
