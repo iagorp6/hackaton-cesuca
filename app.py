@@ -3,9 +3,22 @@ import plotly.express as px
 import streamlit as st
 
 from radar import Pesos, calcular_radar, carregar_dados, mensagem_retencao, problemas_qualidade
-from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_MODEL
+from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_API_KEY, OLLAMA_MODEL
 
 st.set_page_config(page_title="Vértice Desk", page_icon="🎧", layout="wide")
+st.markdown("""<style>
+[data-testid="stSidebar"] {background:#03363d;}
+[data-testid="stSidebar"] * {color:#e9ebed !important;}
+.stTabs [data-baseweb="tab-list"] {gap:2px; border-bottom:2px solid #d8dcde;}
+.stTabs [data-baseweb="tab"] {background:#f8f9f9; border:1px solid #d8dcde; border-bottom:none;
+  border-radius:6px 6px 0 0; padding:6px 14px;}
+.stTabs [aria-selected="true"] {background:#ffffff; border-top:3px solid #1f73b7; font-weight:600;}
+[data-testid="stMetric"] {background:#ffffff; border:1px solid #d8dcde; border-left:4px solid #1f73b7;
+  border-radius:6px; padding:10px 14px;}
+.vd-ticket {border:1px solid #d8dcde; border-radius:6px; padding:10px 14px; background:#f8f9f9; margin:8px 0;}
+.vd-tag {display:inline-block; padding:2px 8px; border-radius:10px; font-size:12px; font-weight:600;
+  background:#e9ebed; color:#2f3941; margin-right:6px;}
+</style>""", unsafe_allow_html=True)
 
 
 @st.cache_data
@@ -34,8 +47,8 @@ st.title("🎧 Vértice Desk")
 st.caption("Help desk da Vértice Sistemas com triagem IA por severidade e radar de clientes em risco. "
            "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
 
-aba_proc, aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
-    ["🔄 Processo: antes x depois", "🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
+aba_triagem, aba_fila, aba_proc, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
+    ["🎫 Novo chamado (Triagem IA)", "📋 Fila de chamados", "🔄 Processo: antes x depois", "Visão geral", "Ranking de risco", "Ficha do cliente",
      "Operação de suporte", "Qualidade dos dados"]
 )
 
@@ -122,7 +135,7 @@ with aba_proc:
 with aba_triagem:
     st.markdown("Chamado novo entra, a IA classifica e a **prioridade final considera o risco de churn do cliente**.")
     motor = motor_llm()
-    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama ({OLLAMA_MODEL})"}.get(
+    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: {'Ollama Cloud' if OLLAMA_API_KEY else 'Ollama local'} ({OLLAMA_MODEL})"}.get(
         motor, "🟡 Nenhum LLM encontrado (sem ANTHROPIC_API_KEY e sem Ollama): usando classificador por palavras-chave"))
     t1, t2 = st.columns([1, 2])
     with t1:
@@ -138,6 +151,16 @@ with aba_triagem:
             res = triar(texto, crow, atend, uso, usar_llm=usar_llm)
         if res.aviso:
             st.warning(res.aviso)
+        cli_nome = cli_sel.split(" · ")[1]
+        st.markdown(f'<div class="vd-ticket"><b>Chamado #NOVO</b> · {cli_nome}<br>'
+                    f'<span class="vd-tag">Status: Novo</span><span class="vd-tag">Fila: {res.fila}</span>'
+                    f'<span class="vd-tag">Serviço: {res.servico}</span><span class="vd-tag">Assunto: {res.assunto}</span>'
+                    f'</div>', unsafe_allow_html=True)
+        if res.nivel:
+            meta = f" · 1º atendimento em até {res.meta_1o_atendimento_min} min" if res.meta_1o_atendimento_min else ""
+            st.subheader(f"{res.nivel_emoji} Severidade: {res.nivel}{meta}")
+            if res.motivos_nivel:
+                st.caption("Motivos: " + "; ".join(map(str, res.motivos_nivel)))
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Assunto", res.assunto)
         m2.metric("Serviço", res.servico)
