@@ -3,7 +3,7 @@ import plotly.express as px
 import streamlit as st
 
 from radar import Pesos, calcular_radar, carregar_dados, mensagem_retencao, problemas_qualidade
-from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_MODEL
+from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_API_KEY, OLLAMA_MODEL
 
 st.set_page_config(page_title="Vértice Desk", page_icon="🎧", layout="wide")
 
@@ -122,7 +122,7 @@ with aba_proc:
 with aba_triagem:
     st.markdown("Chamado novo entra, a IA classifica e a **prioridade final considera o risco de churn do cliente**.")
     motor = motor_llm()
-    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama ({OLLAMA_MODEL})"}.get(
+    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: {'Ollama Cloud' if OLLAMA_API_KEY else 'Ollama local'} ({OLLAMA_MODEL})"}.get(
         motor, "🟡 Nenhum LLM encontrado (sem ANTHROPIC_API_KEY e sem Ollama): usando classificador por palavras-chave"))
     t1, t2 = st.columns([1, 2])
     with t1:
@@ -138,6 +138,11 @@ with aba_triagem:
             res = triar(texto, crow, atend, uso, usar_llm=usar_llm)
         if res.aviso:
             st.warning(res.aviso)
+        if res.nivel:
+            meta = f" · 1º atendimento em até {res.meta_1o_atendimento_min} min" if res.meta_1o_atendimento_min else ""
+            st.subheader(f"{res.nivel_emoji} Severidade: {res.nivel}{meta}")
+            if res.motivos_nivel:
+                st.caption("Motivos: " + "; ".join(map(str, res.motivos_nivel)))
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Assunto", res.assunto)
         m2.metric("Serviço", res.servico)
