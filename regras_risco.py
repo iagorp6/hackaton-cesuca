@@ -32,6 +32,10 @@ SINAIS = {
         "nao consigo vender",
         "nao conseguimos vender",
         "todos os usuarios",
+        "rejeitad",
+        "parados",
+        "caixa travou",
+        "ninguem consegue",
     ),
     "Alto": (
         "erro ao fechar pedido",
@@ -41,6 +45,12 @@ SINAIS = {
         "varios usuarios",
         "prazo fiscal",
         "vence hoje",
+        "cancelamento",
+        "vou migrar",
+        "concorrente",
+        "divergente",
+        "saldo negativo",
+        "401",
     ),
     "Médio": (
         "erro",
