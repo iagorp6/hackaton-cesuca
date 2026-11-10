@@ -47,8 +47,8 @@ st.title("🎧 Vértice Desk")
 st.caption("Help desk da Vértice Sistemas com triagem IA por severidade e radar de clientes em risco. "
            "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
 
-aba_proc, aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
-    ["🔄 Processo: antes x depois", "🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
+aba_triagem, aba_fila, aba_proc, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
+    ["🎫 Novo chamado (Triagem IA)", "📋 Fila de chamados", "🔄 Processo: antes x depois", "Visão geral", "Ranking de risco", "Ficha do cliente",
      "Operação de suporte", "Qualidade dos dados"]
 )
 
