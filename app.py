@@ -5,7 +5,7 @@ import streamlit as st
 from radar import Pesos, calcular_radar, carregar_dados, mensagem_retencao, problemas_qualidade
 from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_MODEL
 
-st.set_page_config(page_title="Radar de Churn", page_icon="📡", layout="wide")
+st.set_page_config(page_title="Vértice Desk", page_icon="🎧", layout="wide")
 
 
 @st.cache_data
@@ -30,8 +30,8 @@ if pesos.total() == 0:
 
 radar = calcular_radar(clientes, atend, uso, pesos)
 
-st.title("📡 Radar de Churn")
-st.caption("Quais clientes estão em risco de cancelar, por quê, e o que o time de CS deve fazer agora. "
+st.title("🎧 Vértice Desk")
+st.caption("Help desk da Vértice Sistemas com triagem IA por severidade e radar de clientes em risco. "
            "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
 
 aba_proc, aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
