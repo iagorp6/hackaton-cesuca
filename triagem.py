@@ -129,13 +129,17 @@ def _ollama_headers() -> dict:
     return h
 
 SYSTEM_PROMPT = (
-    "Você faz a triagem de chamados de suporte de uma empresa de software. "
+    "Você é o assistente de triagem do Vértice Desk, a central de atendimento da Vértice Sistemas, "
+    "software house B2B que vende ERP e soluções para empresas. Produtos: Sistema Alfa (ERP e estoque), "
+    "Sistema Beta (financeiro e faturamento), Portal Web (autoatendimento) e Aplicativo Mobile. "
     "Classifique o chamado em serviço, assunto e prioridade usando só as categorias permitidas. "
-    "Prioridade Alta: operação do cliente parada, muitos usuários afetados, risco financeiro ou bloqueio total. "
-    "Baixa: sugestões, dúvidas sem urgência. Normal: o resto. "
-    "A justificativa deve ter no máximo 2 frases. "
-    "A resposta_sugerida é a primeira resposta ao cliente, em português, cordial, até 5 frases, "
-    "sem prometer prazo exato e sem inventar informações."
+    "Prioridade Alta: operação do cliente parada, sistema fora do ar, faturamento ou emissão de nota bloqueados, "
+    "vários usuários afetados ou risco financeiro. Baixa: sugestões de melhoria e dúvidas sem urgência. Normal: o resto. "
+    "A justificativa deve ter no máximo 2 frases e citar o que no texto definiu a prioridade. "
+    "A resposta_sugerida é a primeira resposta ao cliente, em português, cordial e objetiva, até 5 frases: "
+    "confirme o que entendeu, diga que o chamado já foi encaminhado, peça só as informações que faltam "
+    "(produto afetado, quantos usuários, desde quando, prints) e assine como \"Equipe Vértice Desk\". "
+    "Não prometa prazo exato e não invente informações."
 )
 
 SCHEMA = {
@@ -248,6 +252,13 @@ class Resultado:
     motor: str
     aviso: str | None = None
     similares: pd.DataFrame = field(default_factory=pd.DataFrame)
+    # Nível de severidade (regras_risco.py); padrões mantêm compatibilidade com o front
+    nivel: str | None = None
+    nivel_emoji: str = ""
+    motivos_nivel: list = field(default_factory=list)
+    meta_1o_atendimento_min: int | None = None
+    meta_resolucao_min: int | None = None
+    dados_faltando: list = field(default_factory=list)
 
 
 def _subir(p: str, n: int = 1) -> str:
@@ -276,7 +287,42 @@ def resposta_template(nome: str, assunto: str, prioridade: str, fila: str) -> st
         f"para a equipe {fila} com prioridade {prioridade}. "
         "Vamos analisar e retornar o quanto antes. "
         "Se puder, envie prints ou o passo a passo do que aconteceu, isso agiliza o atendimento."
+        "\n\nEquipe Vértice Desk"
     )
+
+
+# Fallback quando regras_risco.py ainda não existe: deriva o nível da prioridade final
+_NIVEL_POR_PRIORIDADE = {"Alta": "Alto", "Normal": "Médio", "Baixa": "Baixo"}
+_EMOJI_NIVEL = {"Crítico": "🔴", "Alto": "🟠", "Médio": "🟡", "Baixo": "🟢", "Planejado": "🔵"}
+_METAS_NIVEL = {"Crítico": (5, 60), "Alto": (15, 120), "Médio": (60, 240), "Baixo": (240, 480), "Planejado": (480, None)}
+
+
+def nivel_severidade(texto: str, faixa_cliente: str, prioridade_final: str, dias_aberto: int = 0) -> dict:
+    """Usa regras_risco.classificar_nivel (Gustavo) se existir; senão, deriva da prioridade final."""
+    try:
+        from regras_risco import classificar_nivel
+        r = classificar_nivel(texto, risco_cliente=faixa_cliente, dias_aberto=dias_aberto)
+        if isinstance(r, dict) and r.get("nivel"):
+            r.setdefault("emoji", _EMOJI_NIVEL.get(r["nivel"], ""))
+            r.setdefault("motivos", [])
+            r.setdefault("dados_faltando", [])
+            return r
+    except Exception:  # ImportError ou bug no módulo novo: nunca derruba a triagem
+        pass
+    nivel = _NIVEL_POR_PRIORIDADE.get(prioridade_final, "Médio")
+    m1, mr = _METAS_NIVEL[nivel]
+    return {"nivel": nivel, "emoji": _EMOJI_NIVEL[nivel], "motivos": [f"derivado da prioridade {prioridade_final}"],
+            "meta_1o_atendimento_min": m1, "meta_resolucao_min": mr, "dados_faltando": []}
+
+
+def _pedir_dados(resposta: str, faltando: list) -> str:
+    if not faltando:
+        return resposta
+    pedido = "Para agilizar, poderia nos informar: " + ", ".join(faltando) + "?"
+    corpo = resposta.replace("\nEquipe Vértice Desk", "").rstrip()
+    if pedido.lower() in corpo.lower():
+        return resposta
+    return f"{corpo}\n\n{pedido}\n\nEquipe Vértice Desk"
 
 
 def triar(texto: str, cliente_row: pd.Series, atend: pd.DataFrame, uso: pd.DataFrame,
@@ -300,7 +346,11 @@ def triar(texto: str, cliente_row: pd.Series, atend: pd.DataFrame, uso: pd.DataF
         c = classificar_regras(texto, serv_recente)
 
     final, motivo = ajustar_por_risco(c["prioridade"], cliente_row)
+    nv = nivel_severidade(texto, cliente_row["faixa"], final)
+    if nv["nivel"] in ("Crítico", "Alto") and final != "Alta":
+        final, motivo = "Alta", f"nível de severidade {nv['nivel']}" + (f"; {motivo}" if motivo != "sem ajuste" else "")
     fila = FILAS[c["assunto"]]
+    resposta = c.get("resposta_sugerida") or resposta_template(cliente_row["nome_ficticio"], c["assunto"], final, fila)
     sim = atend[(atend["cliente_id"] == cid) | ((atend["assunto"] == c["assunto"]) & (atend["servico"] == c["servico"]))]
     sim = sim.assign(mesmo_cliente=sim["cliente_id"] == cid).sort_values(
         ["mesmo_cliente", "data_abertura"], ascending=[False, False]).head(6)
@@ -314,10 +364,16 @@ def triar(texto: str, cliente_row: pd.Series, atend: pd.DataFrame, uso: pd.DataF
         justificativa=c["justificativa"],
         fila=fila,
         tempo_estimado_min=estimar_tempo(atend, c["assunto"], final),
-        resposta_sugerida=c.get("resposta_sugerida") or resposta_template(cliente_row["nome_ficticio"], c["assunto"], final, fila),
+        resposta_sugerida=_pedir_dados(resposta, nv["dados_faltando"]),
         motor=c["motor"],
         aviso=aviso,
         similares=sim.drop(columns="mesmo_cliente"),
+        nivel=nv["nivel"],
+        nivel_emoji=nv["emoji"],
+        motivos_nivel=list(nv["motivos"]),
+        meta_1o_atendimento_min=nv.get("meta_1o_atendimento_min"),
+        meta_resolucao_min=nv.get("meta_resolucao_min"),
+        dados_faltando=list(nv["dados_faltando"]),
     )
 
 
