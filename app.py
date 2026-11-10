@@ -2,10 +2,13 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from estilo import aplicar_estilo, topo
 from radar import Pesos, calcular_radar, carregar_dados, mensagem_retencao, problemas_qualidade
-from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_MODEL
+from triagem import fila_repriorizada, llm_disponivel, motor_llm, triar, OLLAMA_API_KEY, OLLAMA_MODEL
 
-st.set_page_config(page_title="Vértice Desk", page_icon="🎧", layout="wide")
+st.set_page_config(page_title="Vértice Desk · Central de Atendimento", page_icon="🎫", layout="wide",
+                   initial_sidebar_state="collapsed")
+aplicar_estilo()
 
 
 @st.cache_data
@@ -15,8 +18,11 @@ def dados():
 
 clientes, atend, uso = dados()
 
+st.sidebar.markdown("### Vértice Desk")
+st.sidebar.caption("Central de Atendimento · Vértice Sistemas")
+
 # ---------------- Sidebar: pesos ajustáveis ----------------
-st.sidebar.header("⚙️ Pesos do score")
+st.sidebar.subheader("Configuração do risco do cliente")
 st.sidebar.caption("Ajuste a importância de cada sinal. O score é reescalado para 0 a 100.")
 pesos = Pesos(
     queda_uso=st.sidebar.slider("Queda de uso", 0, 50, 35),
@@ -30,13 +36,13 @@ if pesos.total() == 0:
 
 radar = calcular_radar(clientes, atend, uso, pesos)
 
-st.title("🎧 Vértice Desk")
-st.caption("Help desk da Vértice Sistemas com triagem IA por severidade e radar de clientes em risco. "
-           "Dados 100% fictícios do Hackathon Data Cempro + Cesuca 2026.")
+topo(chips=[("Pendentes", int((atend["status"] == "Pendente").sum())),
+            ("Clientes em risco alto", int((radar["faixa"] == "Alto").sum()))])
+st.caption("Vértice Sistemas · Dados fictícios do Hackathon Data Cempro + Cesuca 2026")
 
-aba_proc, aba_triagem, aba_fila, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
-    ["🔄 Processo: antes x depois", "🤖 Triagem IA", "📋 Fila repriorizada", "Visão geral", "Ranking de risco", "Ficha do cliente",
-     "Operação de suporte", "Qualidade dos dados"]
+aba_triagem, aba_fila, aba_proc, aba_geral, aba_rank, aba_cliente, aba_ops, aba_dados = st.tabs(
+    ["Novo chamado", "Fila de atendimento", "Processo (antes x depois)", "Painel", "Clientes em risco", "Ficha do cliente",
+     "Relatórios", "Qualidade dos dados"]
 )
 
 EXEMPLOS = {
@@ -64,7 +70,7 @@ with aba_proc:
 
     a, b = st.columns(2)
     with a:
-        st.markdown("#### ❌ Hoje (AS-IS)")
+        st.markdown("#### Hoje (AS-IS)")
         st.markdown(
             "1. Chamado chega por **4 canais** diferentes\n"
             "2. Atendente **lê e classifica à mão** (serviço, assunto)\n"
@@ -75,7 +81,7 @@ with aba_proc:
             "7. CS só descobre o cliente insatisfeito **quando ele cancela**"
         )
     with b:
-        st.markdown("#### ✅ Com a solução (TO-BE)")
+        st.markdown("#### Com o Vértice Desk (TO-BE)")
         st.markdown(
             "1. Chamado entra (qualquer canal) e vai para **um único passo de triagem**\n"
             "2. IA classifica **serviço e assunto automaticamente**\n"
@@ -120,24 +126,35 @@ with aba_proc:
 
 # ---------------- Triagem IA ----------------
 with aba_triagem:
-    st.markdown("Chamado novo entra, a IA classifica e a **prioridade final considera o risco de churn do cliente**.")
+    st.markdown("#### Abrir chamado")
     motor = motor_llm()
-    st.caption({"claude": "🟢 LLM ativo: Claude (API)", "ollama": f"🟢 LLM ativo: Ollama ({OLLAMA_MODEL})"}.get(
-        motor, "🟡 Nenhum LLM encontrado (sem ANTHROPIC_API_KEY e sem Ollama): usando classificador por palavras-chave"))
+    st.caption({"claude": "Classificação automática: Claude (API)", "ollama": f"Classificação automática: {'Ollama Cloud' if OLLAMA_API_KEY else 'Ollama local'} ({OLLAMA_MODEL})"}.get(
+        motor, "Classificação automática: regras por palavra-chave (sem LLM disponível)"))
     t1, t2 = st.columns([1, 2])
     with t1:
         ops_cli = radar["cliente_id"] + " · " + radar["nome_ficticio"] + " · risco " + radar["faixa"]
-        cli_sel = st.selectbox("Cliente", ops_cli, key="tri_cli")
-        exemplo = st.selectbox("Exemplo de chamado", list(EXEMPLOS), key="tri_ex")
-        usar_llm = st.toggle("Usar LLM", value=motor is not None, disabled=motor is None)
+        cli_sel = st.selectbox("Solicitante (cliente)", ops_cli, key="tri_cli")
+        exemplo = st.selectbox("Modelo de chamado", list(EXEMPLOS), key="tri_ex")
+        usar_llm = st.toggle("Classificar com LLM", value=motor is not None, disabled=motor is None)
     with t2:
-        texto = st.text_area("Texto do chamado", EXEMPLOS[exemplo], height=150, key=f"tri_txt_{exemplo}")
-    if st.button("Triar chamado", type="primary", disabled=not texto.strip()):
+        texto = st.text_area("Descrição", EXEMPLOS[exemplo], height=150, key=f"tri_txt_{exemplo}")
+    if st.button("Abrir chamado", type="primary", disabled=not texto.strip()):
         crow = radar[radar["cliente_id"] == cli_sel.split(" · ")[0]].iloc[0]
-        with st.spinner("Classificando..."):
+        with st.spinner("Registrando e classificando..."):
             res = triar(texto, crow, atend, uso, usar_llm=usar_llm)
         if res.aviso:
             st.warning(res.aviso)
+        cli_nome = cli_sel.split(" · ")[1]
+        prox_id = f"A{int(atend['atendimento_id'].str[1:].astype(int).max()) + 1:04d}"
+        st.markdown(f'<div class="vd-ticket"><b>Chamado #{prox_id}</b> · {cli_nome} · aberto em {pd.Timestamp.now():%d/%m/%Y %H:%M}<br>'
+                    f'<span class="vd-tag">Status: Novo</span><span class="vd-tag">Fila: {res.fila}</span>'
+                    f'<span class="vd-tag">Serviço: {res.servico}</span><span class="vd-tag">Assunto: {res.assunto}</span>'
+                    f'</div>', unsafe_allow_html=True)
+        if res.nivel:
+            meta = f" · 1º atendimento em até {res.meta_1o_atendimento_min} min" if res.meta_1o_atendimento_min else ""
+            st.subheader(f"{res.nivel_emoji} Severidade: {res.nivel}{meta}")
+            if res.motivos_nivel:
+                st.caption("Motivos: " + "; ".join(map(str, res.motivos_nivel)))
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Assunto", res.assunto)
         m2.metric("Serviço", res.servico)
@@ -146,23 +163,28 @@ with aba_triagem:
                   f"era {res.prioridade_informada}" if mudou else "sem ajuste", delta_color="inverse" if mudou else "off")
         m4.metric("Fila", res.fila, f"~{res.tempo_estimado_min} min (mediana histórica)" if res.tempo_estimado_min else None,
                   delta_color="off")
-        st.markdown(f"**Por quê:** {res.justificativa}  \n**Ajuste por risco:** {res.motivo_ajuste}  \n"
-                    f"<small>Motor: {res.motor}</small>", unsafe_allow_html=True)
-        st.text_area("✉️ Primeira resposta sugerida ao cliente", res.resposta_sugerida, height=140)
-        st.markdown("**Chamados parecidos** (do próprio cliente primeiro, depois mesmo assunto e serviço)")
+        st.markdown(f"**Justificativa:** {res.justificativa}  \n**Ajuste pelo histórico do cliente:** {res.motivo_ajuste}  \n"
+                    f"<small>Classificado por: {res.motor}</small>", unsafe_allow_html=True)
+        st.text_area("Resposta ao solicitante (rascunho para revisar)", res.resposta_sugerida, height=140)
+        st.markdown("**Chamados relacionados** (do próprio cliente primeiro, depois mesmo assunto e serviço)")
         st.dataframe(res.similares, hide_index=True, width="stretch")
 
 # ---------------- Fila repriorizada ----------------
 with aba_fila:
     fila = fila_repriorizada(atend, radar)
-    st.markdown("Os **40 chamados pendentes** reordenados por: prioridade informada + risco de churn do cliente + dias em aberto. "
-                "`mudanca` positiva = subiu na fila.")
+    st.markdown("#### Fila de atendimento · pendentes")
+    st.caption("Ordenada por prioridade informada + risco do cliente + dias em aberto. \"Subiu\" positivo = chamado ganhou posições.")
     f1, f2, f3 = st.columns(3)
     f1.metric("Pendentes", len(fila))
     f2.metric("Pendentes de clientes em risco Alto/Médio", int(fila["faixa"].isin(["Alto", "Médio"]).sum()))
     f3.metric("Chamados que subiram 5+ posições", int((fila["mudanca"] >= 5).sum()))
     st.dataframe(fila, hide_index=True, width="stretch",
-                 column_config={"indice_urgencia": st.column_config.ProgressColumn("indice_urgencia", min_value=0, max_value=110, format="%.0f")})
+                 column_config={
+                     "posicao_nova": "Posição", "posicao_original": "Posição antes", "mudanca": "Subiu",
+                     "atendimento_id": "Chamado", "cliente_id": "ID", "nome_ficticio": "Cliente",
+                     "faixa": "Risco", "score": "Score", "prioridade": "Prioridade", "assunto": "Assunto",
+                     "servico": "Serviço", "dias_aberto": "Dias em aberto",
+                     "indice_urgencia": st.column_config.ProgressColumn("Urgência", min_value=0, max_value=110, format="%.0f")})
 
 # ---------------- Visão geral ----------------
 with aba_geral:
@@ -217,13 +239,13 @@ with aba_rank:
     if cidades:
         r = r[r["cidade"].isin(cidades)]
 
-    cols = ["cliente_id", "nome_ficticio", "score", "faixa", "motivos", "acao_sugerida", "setor", "porte",
+    cols = ["cliente_id", "nome_ficticio"] + (["nome_original"] if "nome_original" in r else []) + ["score", "faixa", "motivos", "acao_sugerida", "setor", "porte",
             "cidade", "acessos_jul", "acessos_ago", "acessos_set", "pendentes", "satisfacao_media"]
     st.dataframe(
         r[cols], hide_index=True, width="stretch",
         column_config={"score": st.column_config.ProgressColumn("score", min_value=0, max_value=100, format="%d")},
     )
-    st.download_button("⬇️ Exportar lista para o CS (CSV)", r[cols].to_csv(index=False).encode("utf-8"),
+    st.download_button("Exportar lista para o CS (CSV)", r[cols].to_csv(index=False).encode("utf-8"),
                        "radar_churn.csv", "text/csv")
 
 # ---------------- Ficha do cliente ----------------
@@ -255,7 +277,7 @@ with aba_cliente:
     st.dataframe(atend[atend["cliente_id"] == cid].sort_values("data_abertura", ascending=False),
                  hide_index=True, width="stretch")
 
-    st.subheader("✉️ Rascunho de mensagem de retenção")
+    st.subheader("Mensagem de retenção (rascunho)")
     st.text_area("Copie e envie pelo canal do cliente", mensagem_retencao(row), height=260)
 
 # ---------------- Operação ----------------
